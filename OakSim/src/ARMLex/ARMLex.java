@@ -49,7 +49,7 @@ public class ARMLex
 		
 		ADDRMODE("da|ia|db|ib|fa|fd|ea|ed|bt|tb|sb|sh|t|b|h|s|l|p"),
 		
-		REGISTER("(([rR](\\d|(1[0-2])))|lr|sp|pc|apsr)"),
+		REGISTER("(([rR](\\d|(1[0-5])))|sl|fp|ip|sp|lr|pc)"),
 		
 		COMMA(","),
 		WORD("\\w+");
