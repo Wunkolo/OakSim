@@ -20,6 +20,7 @@ public class ARMLex
 		MACRO("^\\.\\w+"),
 		
 		IMMEDIATE("#"),
+		IMMEDIATEMEM("="),
 		HEXIDECIMAL("0[xX][0-9a-fA-F]+"),
 		DECIMAL("-?[0-9]+"),
 		
@@ -34,6 +35,19 @@ public class ARMLex
 		
 		REGLISTOPEN("\\{"),
 		REGLISTCLOSE("\\}"),
+		
+		OPCODE(
+			"add|and|b|bic|bl|cdp|cmn|cmp|eor|"
+			+ "ldc|ldm|ldr|ldrb|"
+			+ "mcr|mla|mov|mrc|mul|mvn"
+			+ "orr|rsb|rsc|sbc|stc|stm|str|strb|sub|swi|teq|tst"
+			),
+		
+		SHIFT("lsl|lsr|asr|ror|rrx|asl"),
+		
+		CONDITIONAL("eq|ne|cs|cc|mi|pl|vs|vc|hi|ls|ge|lt|gt|le|al|nv|hs|lo|ul"),
+		
+		ADDRMODE("da|ia|db|ib|fa|fd|ea|ed|bt|tb|sb|sh|t|b|h|s|l|p"),
 		
 		REGISTER("(([rR](\\d|(1[0-2])))|lr|sp|pc|apsr)"),
 		
