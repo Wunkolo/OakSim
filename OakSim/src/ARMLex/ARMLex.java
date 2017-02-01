@@ -18,6 +18,10 @@ public class ARMLex
 		LABEL("^.+:"),
 		MACRO("^\\.\\w+"),
 		
+		IMMEDIATE("#"),
+		HEXIDECIMAL("0[xX][0-9a-fA-F]+"),
+		DECIMAL("-?[0-9]+"),
+		
 		ARITHMETIC("[*|/|+|-]"),
 		
 		BRACKETOPEN("\\["),
@@ -28,10 +32,6 @@ public class ARMLex
 		
 		REGLISTOPEN("\\{"),
 		REGLISTCLOSE("\\}"),
-		
-		IMMEDIATE("#"),
-		HEXIDECIMAL("0[xX][0-9a-fA-F]+"),
-		DECIMAL("[0-9]+"),
 		
 		REGISTER("(([rR](\\d|(1[0-2])))|lr|sp|pc|apsr)"),
 		
