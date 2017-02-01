@@ -16,6 +16,7 @@ public class ARMLex
 		COMMENT("@.+$"),
 		
 		LABEL("^.+:"),
+		MACRO("^\\.\\w+"),
 		
 		ARITHMETIC("[*|/|+|-]"),
 		
