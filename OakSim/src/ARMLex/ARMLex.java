@@ -26,6 +26,9 @@ public class ARMLex
 		PARENTHOPEN("\\("),
 		PARENTHCLOSE("\\)"),
 		
+		REGLISTOPEN("\\{"),
+		REGLISTCLOSE("\\}"),
+		
 		IMMEDIATE("#"),
 		HEXIDECIMAL("0[xX][0-9a-fA-F]+"),
 		DECIMAL("[0-9]+"),
