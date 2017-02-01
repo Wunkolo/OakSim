@@ -14,6 +14,7 @@ public class ARMLex
 		WHITESPACE("[ \t\f\r]+"),
 		NEWLINE("\n"),
 		COMMENT("@.+$"),
+		STRING("\".+\""),
 		
 		LABEL("^.+:"),
 		MACRO("^\\.\\w+"),
@@ -23,6 +24,7 @@ public class ARMLex
 		DECIMAL("-?[0-9]+"),
 		
 		ARITHMETIC("[*|/|+|-]"),
+		WRITEBACK("!"),
 		
 		BRACKETOPEN("\\["),
 		BRACKETCLOSE("\\]"),
@@ -36,7 +38,6 @@ public class ARMLex
 		REGISTER("(([rR](\\d|(1[0-2])))|lr|sp|pc|apsr)"),
 		
 		COMMA(","),
-		STRING("\".+\""),
 		WORD("\\w+");
 
 		public final String Pattern;
