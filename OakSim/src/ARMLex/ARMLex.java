@@ -52,7 +52,7 @@ public class ARMLex
 		REGISTER("(([rR](\\d|(1[0-5])))|sl|fp|ip|sp|lr|pc)"),
 		
 		COMMA(","),
-		WORD("\\w+");
+		WORD("[.\\w]+");
 
 		public final String Pattern;
 
