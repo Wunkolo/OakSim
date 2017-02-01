@@ -17,7 +17,7 @@ public class ARMLex
 		STRING("\".+\""),
 		
 		LABEL("^.+:"),
-		MACRO("^\\.\\w+"),
+		MACRO("^\\.[.\\w]+"),
 		
 		IMMEDIATE("#"),
 		IMMEDIATEMEM("="),
