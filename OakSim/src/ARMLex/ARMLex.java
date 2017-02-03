@@ -16,7 +16,7 @@ public class ARMLex
 		COMMENT("@.+$"),
 		STRING("\".+\""),
 		
-		LABEL("^.+:"),
+		LABEL("^\\S+:"),
 		MACRO("^\\.[.\\w]+"),
 		
 		IMMEDIATE("#"),
@@ -37,13 +37,13 @@ public class ARMLex
 		REGLISTCLOSE("\\}"),
 		
 		OPCODE(
-			"add|and|b|bic|bl|cdp|cmn|cmp|eor|"
+			"adc|add|and"
+			+ "b(l)?|bic|bx|"
+			+ "cdp|cmn|cmp|eor|"
 			+ "ldc|ldm|ldr|ldrb|"
-			+ "mcr|mla|mov|mrc|mul|mvn"
+			+ "mcr|mla|mov(w|t)?|mrc|mul|mvn"
 			+ "orr|rsb|rsc|sbc|stc|stm|str|strb|sub|swi|teq|tst"
 			),
-		
-		SHIFT("lsl|lsr|asr|ror|rrx|asl"),
 		
 		CONDITIONAL("eq|ne|cs|cc|mi|pl|vs|vc|hi|ls|ge|lt|gt|le|al|nv|hs|lo|ul"),
 		
@@ -51,7 +51,9 @@ public class ARMLex
 		
 		REGISTER("(([rR](\\d|(1[0-5])))|sl|fp|ip|sp|lr|pc)"),
 		
-		COMMA(","),
+		SHIFT("lsl|lsr|asr|ror|rrx|asl"),
+		
+		PARAMDELIM(","),
 		WORD("[.\\w]+");
 
 		public final String Pattern;
@@ -66,18 +68,26 @@ public class ARMLex
 	{
 		public TokenType Type;
 		public String Value;
+		public long LineNumber;
 
-		public Token( TokenType Type, String Value )
+		public Token( TokenType Type, String Value)
+		{
+			this(Type,Value,0);
+		}
+		
+		public Token( TokenType Type, String Value, long LineNumber)
 		{
 			this.Type = Type;
 			this.Value = Value;
+			this.LineNumber = LineNumber;
 		}
 		
 		@Override
 		public String toString()
 		{
 			return String.format(
-					"( %s , \"%s\")",
+					"( %d :  %s , \"%s\")",
+					this.LineNumber,
 					this.Type.name(),
 					this.Value
 					);
@@ -111,15 +121,29 @@ public class ARMLex
 		
 		Matcher TokenMatcher= TokenPatterns.matcher(Input);
 		
+		long CurLine = 0;
 		while(TokenMatcher.find())
 		{
 			for( TokenType CurTokenType : TokenType.values())
 			{
-				if(TokenMatcher.group(CurTokenType.name()) != null)
+				if(TokenMatcher.group(TokenType.WHITESPACE.name()) != null)
+				{
+					// Skip all whitespace so we have a clean token-map
+					continue;
+				}
+				else if(TokenMatcher.group(CurTokenType.name()) != null)
 				{
 					Tokens.add(
-						new Token(CurTokenType,TokenMatcher.group(CurTokenType.name()))
+						new Token(
+							CurTokenType,
+							TokenMatcher.group(CurTokenType.name()).replaceAll("\n", ""),
+							CurLine
+							)
 						);
+					if(CurTokenType == TokenType.NEWLINE)
+					{
+						CurLine++;
+					}
 				}
 			}
 		}
