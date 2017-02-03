@@ -2,7 +2,7 @@
 
 
 import java.util.ArrayList;
-import ARMLex.*;
+import Oak.Lexical.*;
 
 public class Main {
 	public static void main(String[] Args)
@@ -20,9 +20,9 @@ public class Main {
 				+ ".ascii \"Hello World\\n\"\n"
 				+ "\tbx main\n";
 		
-		ArrayList<ARMLex.Token> Tokens = ARMLex.Lexigraph(TestProgram);
+		ArrayList<Token> Tokens = Tokenizer.Tokenize(TestProgram);
 		
-		for( ARMLex.Token CurToken : Tokens)
+		for( Token CurToken : Tokens)
 		{
 			System.out.println(CurToken);
 		}		
