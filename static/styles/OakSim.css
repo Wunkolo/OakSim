@@ -44,7 +44,7 @@ hr
 	line-height: 16px;
 	word-wrap: normal;
 	word-break: normal;
-	white-space: pre;
+	white-space: pre-wrap;
 	letter-spacing: 1px;
 	vertical-align: baseline;
 	box-sizing: border-box;
