@@ -57,16 +57,48 @@
 
 			function Assemble(SourceObj)
 			{
+				CodeMirrorInst.getAllMarks().map(
+					function( Mark )
+					{
+						Mark.clear();
+					}
+				);
+
 				var Source = SourceObj.getValue();
+
+				var Assembled;
 				try
 				{
-					var MachineCode = KeyStone.asm(Source);
+					Assembled = KeyStone.asm(Source);
 				}
-				catch (error)
+				catch(error)
 				{
-					PrintError(error);
+					Assembled.failed = true;
+				}
+
+				if( Assembled.failed == true )
+				{
+					PrintError("Error");
+					CodeMirrorInst.markText(
+						{line: Assembled.count, ch: 0},
+						{line: Assembled.count+1, ch: 0},
+						{
+							css: "background-color:red"
+						}
+					);
+
+					CodeMirrorInst.markText(
+						{line: Assembled.count+1, ch: 0},
+						{line: CodeMirrorInst.lineCount(), ch: 0},
+						{
+							css: "opacity: 0.5"
+						}
+					);
 					return;
 				}
+
+				var MachineCode = Assembled.mc;
+
 				var HexString = "";
 				MachineCode.forEach(
 					function(Byte){
