@@ -46,7 +46,6 @@ hr
 	word-break: normal;
 	white-space: pre-wrap;
 	letter-spacing: 1px;
-	vertical-align: baseline;
 	box-sizing: border-box;
 	overflow: auto;
 	border: 1px dashed #313032;
@@ -62,7 +61,6 @@ code
 	border: 0;
 	display: inline;
 	font-size: 12px;
-	width: 100%;
 	color: #a2a2a2;
 	border-radius: 5px;
 }
@@ -117,7 +115,6 @@ h1
 	float: left;
 	padding: 2px;
 	margin: 0 2px 0 2px;
-	vertical-align: middle;
 }
 .tabs .right
 {
