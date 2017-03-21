@@ -4,9 +4,9 @@
 		<title>OakSim</title>
 		<script src="static/lib/codemirror.js"></script>
 		<link rel="stylesheet" href="static/lib/codemirror.css">
-		<script src="static/lib/capstone.min.js"></script>
-		<script src="static/lib/keystone.min.js"></script>
 		<script src="static/mode/gas/gas.js"></script>
+		<!--<script src="static/lib/capstone.min.js"></script>-->
+		<!--<script src="static/lib/keystone.min.js"></script>-->
 		<!--<script src="static/unicorn.min.js"></script>-->
 		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 		<link rel="stylesheet" href="static/styles/OakSim.css">
@@ -14,13 +14,34 @@
 
 	<body>
 		<div id="content">
-		<code><pre class="frame"><textarea id="source" style="width:100%" spellcheck="false" autocorrect="off" wrap="off">
-			</textarea></pre></code>
-		<code><pre class="frame" id="assembly"></pre></code>
+			<header id="header" class="panel">
+				OakSim
+			</header>
+			<div id="main">
+				<div class="content-left">
+					<div class="panel" id="buttons">Buttons</div>
+					<div class="panel" id="code">
+						<textarea id="source" spellcheck="false" wrap="off"></textarea>
+					</div>
+					<div class="panel" id="messages">
+						Error log<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!
+					</div>
+				</div>
+
+				<div class="content-right">
+					<div class="panel" id="registers">Registers<br>&emsp;r0: blah<br>&emsp;r1: blah<br>&emsp;r2: blah<br>&emsp;r3: blah<br>&emsp;r4: blah<br>&emsp;r5: blah</div>
+					<div class="panel" id="memory">0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br></div>
+				</div>
+			</div>
+			<footer id="footer" class="panel">
+				footer
+			</footer>
 		</div>
+
+
 		<script>
 			// Assembler
-			var KeyStone = new ks.Keystone(ks.ARCH_ARM,ks.MODE_ARM);
+			//var KeyStone = new ks.Keystone(ks.ARCH_ARM,ks.MODE_ARM);
 			//KeyStone.option(ks.OPT_SYNTAX,ks.OPT_SYNTAX_INTEL);
 
 			// Emulator
@@ -34,7 +55,7 @@
 			{
 				autofocus: true,
 				dragDrop: true,
-				cursorBlinkRate: 500,
+				cursorBlinkRate: 250,
 				value: "main:\n\tmov r1,#1\n\tbl main\n",
 				lineNumbers: true,
 				tabSize: 4,
@@ -43,8 +64,7 @@
 				mode: "gas",
 				theme: "OakSim",
 			});
-
-			var ElmAssembly = document.getElementById("assembly");
+/*			var ElmAssembly = document.getElementById("assembly");
 
 			function HexByte(Value)
 			{
@@ -112,11 +132,11 @@
 				
 				ElmAssembly.innerHTML = "<span style=\"color:red\">" + Message + "</span>";
 			}
-
+			*/
 
 			// Default program
 			CodeMirrorInst.setValue("square:\n        mov     r3, r0\n        mul     r0, r3, r0\n        bx      lr");
-			Assemble(CodeMirrorInst);
+			//Assemble(CodeMirrorInst);
 
 		</script>
 	</body>

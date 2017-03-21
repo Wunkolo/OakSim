@@ -1,14 +1,17 @@
 
-body
+html, body
 {
-	font-size:12px;
-	font-family:"MS UI Gothic","Meiryo UI","MS PGothic","HiraKakuProN-W3",monospace;
-	margin: 3em auto 0;
-	padding: 0;
+	font-size: 12px;
 	letter-spacing: 1px;
-	color: #a2a2a2;
+	font-family: courier, monospace;
+	color: white;
 	background-color: #0e0e0e;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
 }
+
 #tooltip
 {
 	background-color: #1f1e21;
@@ -19,51 +22,84 @@ body
 	padding: 2px;
 	font-size: 10px;
 	box-shadow: 2px 2px 4px black;
-	max-width:500px;
+	max-width: 500px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-strong, b
+
+.panel
 {
-	color: white;
-	font-weight: 300;
-}
-hr
-{
-	border: 0;
-	height: 1px;
-	color: #313032;
-	/*background-color: #313032*/
-	background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), #313032, rgba(0,0,0,0));
-}
-.frame
-{
-	display: block;
-	font-size: 12px;
-	font-family: courier, monospace;
-	line-height: 16px;
-	word-wrap: normal;
-	word-break: normal;
-	white-space: pre-wrap;
-	letter-spacing: 1px;
-	box-sizing: border-box;
-	overflow: auto;
-	border: 1px dashed #313032;
-	margin: 0;
 	padding: 10px;
+	margin: 5px;
+	border: 1px dashed #313032;
 	background-color: #0e0e0e;
-	box-shadow: inset 0px 0px 10px 0px rgba(1,1,1,1); 
+	box-shadow: inset 0px 0px 10px 0px rgba(1,1,1,1);
+	border-radius: 3px;
 }
-code
+
+#content
 {
-	margin: 0;
-	padding: 2px;
-	border: 0;
-	display: inline;
-	font-size: 12px;
-	color: #a2a2a2;
-	border-radius: 5px;
+	display:flex;
+	flex-flow: column;
+	width: 90%;
+	height: 100%;
+	min-width: 750px;
+	margin: 0 auto;
 }
+#header, #footer
+{
+	flex: 0 1 auto;
+}
+#main
+{
+	display: flex;
+	flex: 1 1 auto;
+	overflow: hidden;
+}
+
+.content-left, .content-right
+{
+	display: flex;
+	flex-flow: column;
+	overflow: auto;
+}
+.content-left
+{
+	flex: 1 1 auto;
+}
+.content-right
+{
+	flex: 0 1 auto;
+	width: 50%;
+}
+
+#buttons
+{
+	flex: 0 1 auto;
+}
+#code
+{
+	flex: 1 1 75%;
+	padding: 0;
+	overflow-y: hidden;
+}
+#messages
+{
+	flex: 0 1 15%;
+	overflow-y: scroll;
+}
+
+#registers
+{
+	flex: 0 1 25%;
+}
+#memory
+{
+	flex: 1 1 auto;
+	overflow-y: scroll;
+}
+
+/*Scrollbar*/
 ::-webkit-scrollbar
 {
 	width: 4px;
@@ -74,79 +110,30 @@ code
 	background: #a2a2a2;
 	border-radius: 3px;
 }
-::-webkit-scrollbar-track {
+::-webkit-scrollbar-track
+{
 	background: #313032;
 }
-a
+/* Codemirror*/
+.cm-s-OakSim.CodeMirror
 {
-	color: inherit;
-	text-decoration: none;
-}
-h1
-{
-	margin: 0;
-	padding: 8px;
-	font-size: 24px;
-}
-.info
-{
-	padding: 4px;        
-	font-size: 18px;
-}
-#content
-{
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 4em;
-	max-width: 542px;
-}
-.tabs
-{
-	margin-top: -1px;
-	font-size: 10px;
-}
-.tabs span
-{
-	background: #1f1e21;
-	border: 1px solid #313032;
-	border-width: 0 1px 1px;
-	border-radius: 0 0 2px 2px;
-	display: block;
-	float: left;
-	padding: 2px;
-	margin: 0 2px 0 2px;
-}
-.tabs .right
-{
-	float:right;
-}
-ol.notes
-{
-	padding:0;
-	list-style-type:none;
-	overflow:auto;
-}
-ol.notes a
-{
-	border: 0;
-}
-ol.notes li.note
-{
-	display: list-item;
-	text-align:left;
-	padding:5px;
-	border-top: 1px dotted #313032;
-}
-ol.notes li.note img.avatar
-{
-	margin-right: 8px;
+	background: transparent;
+	color: #e0e0e0;
+	height: 100%;
 }
 
+.cm-s-OakSim div.CodeMirror-selected
+{
+	background: #303030;
+}
 
-.cm-s-OakSim.CodeMirror { background: transparent; color: #e0e0e0; }
-.cm-s-OakSim div.CodeMirror-selected { background: #303030; }
-.cm-s-OakSim .CodeMirror-line::selection, .cm-s-OakSim .CodeMirror-line > span::selection, .cm-s-OakSim .CodeMirror-line > span > span::selection { background: rgba(48, 48, 48, .99); }
-.cm-s-OakSim .CodeMirror-line::-moz-selection, .cm-s-OakSim .CodeMirror-line > span::-moz-selection, .cm-s-OakSim .CodeMirror-line > span > span::-moz-selection { background: rgba(48, 48, 48, .99); }
+.cm-s-OakSim .CodeMirror-line::selection, .cm-s-OakSim .CodeMirror-line > span::selection, .cm-s-OakSim .CodeMirror-line > span > span::selection
+{
+	background: rgba(48, 48, 48, .99);
+}
+.cm-s-OakSim .CodeMirror-line::-moz-selection, .cm-s-OakSim .CodeMirror-line > span::-moz-selection, .cm-s-OakSim .CodeMirror-line > span > span::-moz-selection {
+	background: rgba(48, 48, 48, .99);
+}
 .cm-s-OakSim .CodeMirror-gutters { background: transparent; border-right: 0px; }
 .cm-s-OakSim .CodeMirror-guttermarker { color: #ac4142; }
 .cm-s-OakSim .CodeMirror-guttermarker-subtle { color: #505050; }
