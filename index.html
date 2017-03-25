@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="static/lib/codemirror.css">
 		<script src="static/mode/gas/gas.js"></script>
 		<!--<script src="static/lib/capstone.min.js"></script>-->
-		<!--<script src="static/lib/keystone.min.js"></script>-->
+		<script src="static/lib/keystone.min.js"></script>
 		<!--<script src="static/unicorn.min.js"></script>-->
 		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 		<link rel="stylesheet" href="static/styles/OakSim.css">
@@ -24,13 +24,12 @@
 						<textarea id="source" spellcheck="false" wrap="off"></textarea>
 					</div>
 					<div class="panel" id="messages">
-						Error log<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!
 					</div>
 				</div>
 
 				<div class="content-right">
 					<div class="panel" id="registers">Registers<br>&emsp;r0: blah<br>&emsp;r1: blah<br>&emsp;r2: blah<br>&emsp;r3: blah<br>&emsp;r4: blah<br>&emsp;r5: blah</div>
-					<div class="panel" id="memory">0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br>0x00000000: 00 00 00 00 00 00 00 00 00 00 00 00<br></div>
+					<div class="panel" id="memory"></div>
 				</div>
 			</div>
 			<footer id="footer" class="panel">
@@ -41,8 +40,9 @@
 
 		<script>
 			// Assembler
-			//var KeyStone = new ks.Keystone(ks.ARCH_ARM,ks.MODE_ARM);
+			var KeyStone = new ks.Keystone(ks.ARCH_ARM,ks.MODE_ARM);
 			//KeyStone.option(ks.OPT_SYNTAX,ks.OPT_SYNTAX_INTEL);
+			Log("Keystone initialized");
 
 			// Emulator
 			//var Unicorn = new uc.Unicorn(uc.ARCH_ARM,ks.MODE_LITTLE_ENDIAN);
@@ -50,13 +50,14 @@
 			// Disassembler
 			//var Capstone = new cs.Capstone(cs.ARCH_ARM,cs.MODE_ARM);
 
+			var AssembleDelay = null;
+
 			// CodeMirror
 			var CodeMirrorInst = CodeMirror.fromTextArea(document.getElementById("source"),
 			{
 				autofocus: true,
 				dragDrop: true,
 				cursorBlinkRate: 250,
-				value: "main:\n\tmov r1,#1\n\tbl main\n",
 				lineNumbers: true,
 				tabSize: 4,
 				smartIndent: true,
@@ -64,7 +65,16 @@
 				mode: "gas",
 				theme: "OakSim",
 			});
-/*			var ElmAssembly = document.getElementById("assembly");
+
+			CodeMirrorInst.on('change',function()
+			{
+				clearTimeout(AssembleDelay)
+				AssembleDelay = setTimeout(function(){
+					Assemble(CodeMirrorInst);
+				},500);
+			});
+
+			Log("CodeMirror initialized");
 
 			function HexByte(Value)
 			{
@@ -72,11 +82,16 @@
 				var Str = '00' + Value.toString(16).toUpperCase();
 				return Str.slice(-2);
 			}
-			
-			CodeMirrorInst.on('change',Assemble);
 
+			function Log(Message)
+			{
+				
+				document.getElementById("messages").innerHTML = "<span>" + Message + "</span><br>" + document.getElementById("messages").innerHTML;
+			}
+			
 			function Assemble(SourceObj)
 			{
+				var ElmMemory = document.getElementById("memory");
 				CodeMirrorInst.getAllMarks().map(
 					function( Mark )
 					{
@@ -98,22 +113,22 @@
 
 				if( Assembled.failed == true )
 				{
-					PrintError("Error");
-					CodeMirrorInst.markText(
-						{line: Assembled.count, ch: 0},
-						{line: Assembled.count+1, ch: 0},
-						{
-							css: "background-color:red"
-						}
-					);
+					Log("Error assembling");
+					// CodeMirrorInst.markText(
+					// 	{line: Assembled.count, ch: 0},
+					// 	{line: Assembled.count+1, ch: 0},
+					// 	{
+					// 		css: "background-color:red"
+					// 	}
+					// );
 
-					CodeMirrorInst.markText(
-						{line: Assembled.count+1, ch: 0},
-						{line: CodeMirrorInst.lineCount(), ch: 0},
-						{
-							css: "opacity: 0.5"
-						}
-					);
+					// CodeMirrorInst.markText(
+					// 	{line: Assembled.count+1, ch: 0},
+					// 	{line: CodeMirrorInst.lineCount(), ch: 0},
+					// 	{
+					// 		css: "opacity: 0.5"
+					// 	}
+					// );
 					return;
 				}
 
@@ -124,19 +139,11 @@
 					function(Byte){
 						HexString += HexByte(Byte) + " ";
 				});
-				ElmAssembly.innerHTML = HexString;
+				ElmMemory.innerHTML = HexString;
 			}
-
-			function PrintError(Message)
-			{
-				
-				ElmAssembly.innerHTML = "<span style=\"color:red\">" + Message + "</span>";
-			}
-			*/
 
 			// Default program
 			CodeMirrorInst.setValue("square:\n        mov     r3, r0\n        mul     r0, r3, r0\n        bx      lr");
-			//Assemble(CodeMirrorInst);
 
 		</script>
 	</body>
