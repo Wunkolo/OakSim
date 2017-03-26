@@ -133,6 +133,40 @@
 						"&emsp;LR : " + this.Unicorn.reg_read_i32(uc.ARM_REG_LR).toString(16) + "<br>" +
 						"&emsp;PC : " + this.Unicorn.reg_read_i32(uc.ARM_REG_PC).toString(16) + "<br>"
 					;
+					document.getElementById("registers").innerHTML += 
+						"&emsp;s0 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S0 ) + "<br>" +
+						"&emsp;s1 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S1 ) + "<br>" +
+						"&emsp;s2 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S2 ) + "<br>" +
+						"&emsp;s3 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S3 ) + "<br>" +
+						"&emsp;s4 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S4 ) + "<br>" +
+						"&emsp;s5 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S5 ) + "<br>" +
+						"&emsp;s6 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S6 ) + "<br>" +
+						"&emsp;s7 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S7 ) + "<br>" +
+						"&emsp;s8 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S8 ) + "<br>" +
+						"&emsp;s9 : " + this.Unicorn.reg_read_float(uc.ARM_REG_S9 ) + "<br>" +
+						"&emsp;s10: " + this.Unicorn.reg_read_float(uc.ARM_REG_S10) + "<br>" +
+						"&emsp;s11: " + this.Unicorn.reg_read_float(uc.ARM_REG_S11) + "<br>" +
+						"&emsp;s12: " + this.Unicorn.reg_read_float(uc.ARM_REG_S12) + "<br>" +
+						"&emsp;s13: " + this.Unicorn.reg_read_float(uc.ARM_REG_S13) + "<br>" +
+						"&emsp;s14: " + this.Unicorn.reg_read_float(uc.ARM_REG_S14) + "<br>" +
+						"&emsp;s15: " + this.Unicorn.reg_read_float(uc.ARM_REG_S15) + "<br>" +
+						"&emsp;s16: " + this.Unicorn.reg_read_float(uc.ARM_REG_S16) + "<br>" +
+						"&emsp;s17: " + this.Unicorn.reg_read_float(uc.ARM_REG_S17) + "<br>" +
+						"&emsp;s18: " + this.Unicorn.reg_read_float(uc.ARM_REG_S18) + "<br>" +
+						"&emsp;s19: " + this.Unicorn.reg_read_float(uc.ARM_REG_S19) + "<br>" +
+						"&emsp;s20: " + this.Unicorn.reg_read_float(uc.ARM_REG_S20) + "<br>" +
+						"&emsp;s21: " + this.Unicorn.reg_read_float(uc.ARM_REG_S21) + "<br>" +
+						"&emsp;s22: " + this.Unicorn.reg_read_float(uc.ARM_REG_S22) + "<br>" +
+						"&emsp;s23: " + this.Unicorn.reg_read_float(uc.ARM_REG_S23) + "<br>" +
+						"&emsp;s24: " + this.Unicorn.reg_read_float(uc.ARM_REG_S24) + "<br>" +
+						"&emsp;s25: " + this.Unicorn.reg_read_float(uc.ARM_REG_S25) + "<br>" +
+						"&emsp;s26: " + this.Unicorn.reg_read_float(uc.ARM_REG_S26) + "<br>" +
+						"&emsp;s27: " + this.Unicorn.reg_read_float(uc.ARM_REG_S27) + "<br>" +
+						"&emsp;s28: " + this.Unicorn.reg_read_float(uc.ARM_REG_S28) + "<br>" +
+						"&emsp;s29: " + this.Unicorn.reg_read_float(uc.ARM_REG_S29) + "<br>" +
+						"&emsp;s30: " + this.Unicorn.reg_read_float(uc.ARM_REG_S30) + "<br>" +
+						"&emsp;s31: " + this.Unicorn.reg_read_float(uc.ARM_REG_S31) + "<br>"
+					;
 				}
 				this.Reset = function()
 				{
@@ -161,6 +195,7 @@
 				this.Log("Keystone initialized");
 
 				// Emulator
+				// simulated as "armv8eb"
 				this.Unicorn = new uc.Unicorn(uc.ARCH_ARM,ks.MODE_LITTLE_ENDIAN);
 				this.Log("Unicorn initialized");
 

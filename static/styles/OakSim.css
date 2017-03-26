@@ -91,7 +91,9 @@ html, body
 
 #registers
 {
-	flex: 0 1 25%;
+	flex: 0 1 50%;
+	overflow-y: scroll;
+	white-space: nowrap;
 }
 #memory
 {
