@@ -76,6 +76,7 @@
 					}
 
 					var MachineCode = Assembled.mc;
+					this.Reset();
 					this.Unicorn.mem_write(0x10000,MachineCode);
 					// var HexString = "";
 					// MachineCode.forEach(
