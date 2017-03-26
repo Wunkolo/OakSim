@@ -120,12 +120,15 @@
 					0x40000 - 0x60000 Working memory
 					*/
 					// Stack
+					this.Unicorn.mem_unmap(0x8000,0x8000);
 					this.Unicorn.mem_map(0x8000,0x8000);
+					this.Unicorn.reg_write_i32(uc.ARM_REG_IP,0x8000 + 0x8000);
 					// Code
+					this.Unicorn.mem_unmap(0x10000,0x30000);
 					this.Unicorn.mem_map(0x10000,0x30000);
 					// WRAM
+					this.Unicorn.mem_unmap(0x40000,0x20000);
 					this.Unicorn.mem_map(0x40000,0x20000);
-					this.Unicorn.reg_write_i32(uc.ARM_REG_IP,0x8000 + 0x8000);
 				}
 				// Assembler
 				this.Keystone = new ks.Keystone(ks.ARCH_ARM,ks.MODE_ARM);
