@@ -28,7 +28,7 @@
 				</div>
 
 				<div class="content-right">
-					<div class="panel" id="registers">Registers<br>&emsp;r0: blah<br>&emsp;r1: blah<br>&emsp;r2: blah<br>&emsp;r3: blah<br>&emsp;r4: blah<br>&emsp;r5: blah</div>
+					<div class="panel" id="registers"></div>
 					<div class="panel" id="memory"></div>
 				</div>
 			</div>
@@ -112,6 +112,28 @@
 						this.Unicorn.mem_read(0x10000,4*1024),0x10000
 					);
 				}
+				this.DrawRegisters = function()
+				{
+					document.getElementById("registers").innerHTML = 
+						"Registers:<br>"+
+						"&emsp;r0 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R0 ).toString(16) + "<br>" +
+						"&emsp;r1 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R1 ).toString(16) + "<br>" +
+						"&emsp;r2 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R2 ).toString(16) + "<br>" +
+						"&emsp;r3 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R3 ).toString(16) + "<br>" +
+						"&emsp;r4 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R4 ).toString(16) + "<br>" +
+						"&emsp;r5 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R5 ).toString(16) + "<br>" +
+						"&emsp;r6 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R6 ).toString(16) + "<br>" +
+						"&emsp;r7 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R7 ).toString(16) + "<br>" +
+						"&emsp;r8 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R8 ).toString(16) + "<br>" +
+						"&emsp;r9 : " + this.Unicorn.reg_read_i32(uc.ARM_REG_R9 ).toString(16) + "<br>" +
+						"&emsp;r10: " + this.Unicorn.reg_read_i32(uc.ARM_REG_R10).toString(16) + "<br>" +
+						"&emsp;r11: " + this.Unicorn.reg_read_i32(uc.ARM_REG_R11).toString(16) + "<br>" +
+						"&emsp;r12: " + this.Unicorn.reg_read_i32(uc.ARM_REG_R12).toString(16) + "<br>" +
+						"&emsp;SP : " + this.Unicorn.reg_read_i32(uc.ARM_REG_SP).toString(16) + "<br>" +
+						"&emsp;LR : " + this.Unicorn.reg_read_i32(uc.ARM_REG_LR).toString(16) + "<br>" +
+						"&emsp;PC : " + this.Unicorn.reg_read_i32(uc.ARM_REG_PC).toString(16) + "<br>"
+					;
+				}
 				this.Reset = function()
 				{
 					/*
@@ -122,13 +144,16 @@
 					// Stack
 					this.Unicorn.mem_unmap(0x8000,0x8000);
 					this.Unicorn.mem_map(0x8000,0x8000);
-					this.Unicorn.reg_write_i32(uc.ARM_REG_IP,0x8000 + 0x8000);
+					this.Unicorn.reg_write_i32(uc.ARM_REG_SP,0x8000 + 0x8000);
 					// Code
 					this.Unicorn.mem_unmap(0x10000,0x30000);
 					this.Unicorn.mem_map(0x10000,0x30000);
+					this.Unicorn.reg_write_i32(uc.ARM_REG_IP,0x10000);
 					// WRAM
 					this.Unicorn.mem_unmap(0x40000,0x20000);
 					this.Unicorn.mem_map(0x40000,0x20000);
+
+					this.DrawRegisters();
 				}
 				// Assembler
 				this.Keystone = new ks.Keystone(ks.ARCH_ARM,ks.MODE_ARM);
@@ -166,6 +191,7 @@
 					{
 						Assemble(this.CodeMirrorInst.getValue());
 						this.DrawMemory();
+						this.DrawRegisters();
 					},125);
 				});
 				// Default program
