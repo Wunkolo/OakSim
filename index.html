@@ -91,6 +91,29 @@
 					
 					document.getElementById("messages").innerHTML = "<span>" + Message + "</span><br>" + document.getElementById("messages").innerHTML;
 				}
+				var StyleByte = function(Byte)
+				{
+					var Hex = ('00'+ Byte.toString(16).toUpperCase()).slice(-2);
+					if( Byte ==  0x00)
+					{
+						Hex = "<span style=\"color:#313032\">" + Hex + "</span>";
+					}
+					else
+					{
+						var Colors = ["#90a95","#6a9fb5","#d28445","#ac4142","#aa759f"];
+						Hex = "<span style=\"color:" + Colors[Byte % Colors.length] + "\">" + Hex + "</span>";
+					}
+					return Hex;
+				}
+				var AsciiByte = function(Byte)
+				{
+					var Colors = ["#90a95","#6a9fb5","#d28445","#ac4142","#aa759f"];
+					if((Byte > 31) && (Byte <  127))
+					{
+						return  "<span style=\"color:" + Colors[Byte % Colors.length] + "\">" + String.fromCharCode(Byte) + "</span>";
+					}
+					return "<span style=\"color:#313032\">.</span>";
+				}
 				var HexDump = function(Bytes, Offset, Length, Width)
 				{
 					Offset = Offset || 0;
@@ -101,8 +124,8 @@
 					for(var i = 0; i < Length; i += Width)
 					{
 						var LineBytes = Bytes.slice(i,i+Width);
-						var Hex = LineBytes.reduce(function(Line,i){return Line + " " + ('00'+ i.toString(16).toUpperCase()).slice(-2)},"0x" + ("00000000" + (i + Offset).toString(16).toUpperCase()).slice(-8) + ':');
-						Out +=  Hex + "<br>";
+						var Hex = LineBytes.reduce(function(Line,i){return Line + " " + StyleByte(i)},"0x" + ("00000000" + (i + Offset).toString(16).toUpperCase()).slice(-8) + ':');
+						Out += Hex + LineBytes.reduce(function(Print,i){return Print + AsciiByte(i)},' ') + "<br>";
 					}
 					return Out;
 				};
