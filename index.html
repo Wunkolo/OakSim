@@ -7,7 +7,7 @@
 		<script src="static/mode/gas/gas.js"></script>
 		<!--<script src="static/lib/capstone.min.js"></script>-->
 		<script src="static/lib/keystone.min.js"></script>
-		<!--<script src="static/unicorn.min.js"></script>-->
+		<script src="static/lib/unicorn.min.js"></script>
 		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 		<link rel="stylesheet" href="static/styles/OakSim.css">
 	</head>
@@ -39,42 +39,139 @@
 
 
 		<script>
-			// Assembler
-			var KeyStone = new ks.Keystone(ks.ARCH_ARM,ks.MODE_ARM);
-			//KeyStone.option(ks.OPT_SYNTAX,ks.OPT_SYNTAX_INTEL);
-			Log("Keystone initialized");
-
-			// Emulator
-			//var Unicorn = new uc.Unicorn(uc.ARCH_ARM,ks.MODE_LITTLE_ENDIAN);
-
-			// Disassembler
-			//var Capstone = new cs.Capstone(cs.ARCH_ARM,cs.MODE_ARM);
-
-			var AssembleDelay = null;
-
-			// CodeMirror
-			var CodeMirrorInst = CodeMirror.fromTextArea(document.getElementById("source"),
+			var Context = (function()
 			{
-				autofocus: true,
-				dragDrop: true,
-				cursorBlinkRate: 250,
-				lineNumbers: true,
-				tabSize: 4,
-				smartIndent: true,
-				indentWithTabs: true,
-				mode: "gas",
-				theme: "OakSim",
-			});
+				// Util functions
+				this.Assemble = function(Source)
+				{
+					var ElmMemory = document.getElementById("memory");
+					// Context.CodeMirrorInst.getAllMarks().map(
+					// 	function( Mark )
+					// 	{
+					// 		Mark.clear();
+					// 	}
+					// );
 
-			CodeMirrorInst.on('change',function()
-			{
-				clearTimeout(AssembleDelay)
-				AssembleDelay = setTimeout(function(){
-					Assemble(CodeMirrorInst);
-				},500);
-			});
+					var Assembled = this.Keystone.asm(Source);
 
-			Log("CodeMirror initialized");
+					if( Assembled.failed == true )
+					{
+						Context.Log("Error assembling");
+						// CodeMirrorInst.markText(
+						// 	{line: Assembled.count, ch: 0},
+						// 	{line: Assembled.count+1, ch: 0},
+						// 	{
+						// 		css: "background-color:red"
+						// 	}
+						// );
+
+						// CodeMirrorInst.markText(
+						// 	{line: Assembled.count+1, ch: 0},
+						// 	{line: CodeMirrorInst.lineCount(), ch: 0},
+						// 	{
+						// 		css: "opacity: 0.5"
+						// 	}
+						// );
+						return;
+					}
+
+					var MachineCode = Assembled.mc;
+					this.Unicorn.mem_write(0x10000,MachineCode);
+					// var HexString = "";
+					// MachineCode.forEach(
+					// 	function(Byte){
+					// 		HexString += HexByte(Byte) + " ";
+					// });
+					// ElmMemory.innerHTML = HexString;
+				}
+
+				this.Log = function(Message)
+				{
+					
+					document.getElementById("messages").innerHTML = "<span>" + Message + "</span><br>" + document.getElementById("messages").innerHTML;
+				}
+				var HexDump = function(Bytes, Offset, Length, Width)
+				{
+					Offset = Offset || 0;
+					Length = Length || Math.min(Bytes.length,1024);
+					Width = Width || 16;
+					var Out = "";
+
+					for(var i = 0; i < Length; i += Width)
+					{
+						var LineBytes = Bytes.slice(i,i+Width);
+						var Hex = LineBytes.reduce(function(Line,i){return Line + " " + ('00'+ i.toString(16).toUpperCase()).slice(-2)},"0x" + ("00000000" + (i + Offset).toString(16).toUpperCase()).slice(-8) + ':');
+						Out +=  Hex + "<br>";
+					}
+					return Out;
+				};
+				this.DrawMemory = function()
+				{
+					document.getElementById("memory").innerHTML = HexDump(
+						this.Unicorn.mem_read(0x10000,4*1024),0x10000
+					);
+				}
+				this.Reset = function()
+				{
+					/*
+					0x08000 - 0x10000 Stack
+					0x10000 - 0x30000 Code memory
+					0x40000 - 0x60000 Working memory
+					*/
+					// Stack
+					this.Unicorn.mem_map(0x8000,0x8000);
+					// Code
+					this.Unicorn.mem_map(0x10000,0x30000);
+					// WRAM
+					this.Unicorn.mem_map(0x40000,0x20000);
+					this.Unicorn.reg_write_i32(uc.ARM_REG_IP,0x8000 + 0x8000);
+				}
+				// Assembler
+				this.Keystone = new ks.Keystone(ks.ARCH_ARM,ks.MODE_ARM);
+				//KeyStone.option(ks.OPT_SYNTAX,ks.OPT_SYNTAX_INTEL);
+				this.Log("Keystone initialized");
+
+				// Emulator
+				this.Unicorn = new uc.Unicorn(uc.ARCH_ARM,ks.MODE_LITTLE_ENDIAN);
+				this.Log("Unicorn initialized");
+
+				// Disassembler
+				//var Capstone = new cs.Capstone(cs.ARCH_ARM,cs.MODE_ARM);
+
+				// Delay between changing the text box and assembling
+				this.AssembleDelay = null;
+
+				// CodeMirror
+				this.CodeMirrorInst = CodeMirror.fromTextArea(document.getElementById("source"),
+				{
+					autofocus: true,
+					dragDrop: true,
+					cursorBlinkRate: 250,
+					lineNumbers: true,
+					tabSize: 4,
+					smartIndent: true,
+					indentWithTabs: true,
+					mode: "gas",
+					theme: "OakSim",
+				});
+
+				this.CodeMirrorInst.on('change',function()
+				{
+					clearTimeout(this.AssembleDelay)
+					this.AssembleDelay = setTimeout(function()
+					{
+						Assemble(this.CodeMirrorInst.getValue());
+						this.DrawMemory();
+					},500);
+				});
+				// Default program
+				this.CodeMirrorInst.setValue("square:\n\tmov r3, r0\n\tmul r0, r3, r0\n\tbx lr");
+				this.Log("CodeMirror initialized");
+
+
+				this.Reset();
+				return this;
+			})();
 
 			function HexByte(Value)
 			{
@@ -82,69 +179,6 @@
 				var Str = '00' + Value.toString(16).toUpperCase();
 				return Str.slice(-2);
 			}
-
-			function Log(Message)
-			{
-				
-				document.getElementById("messages").innerHTML = "<span>" + Message + "</span><br>" + document.getElementById("messages").innerHTML;
-			}
-			
-			function Assemble(SourceObj)
-			{
-				var ElmMemory = document.getElementById("memory");
-				CodeMirrorInst.getAllMarks().map(
-					function( Mark )
-					{
-						Mark.clear();
-					}
-				);
-
-				var Source = SourceObj.getValue();
-
-				var Assembled;
-				try
-				{
-					Assembled = KeyStone.asm(Source);
-				}
-				catch(error)
-				{
-					Assembled.failed = true;
-				}
-
-				if( Assembled.failed == true )
-				{
-					Log("Error assembling");
-					// CodeMirrorInst.markText(
-					// 	{line: Assembled.count, ch: 0},
-					// 	{line: Assembled.count+1, ch: 0},
-					// 	{
-					// 		css: "background-color:red"
-					// 	}
-					// );
-
-					// CodeMirrorInst.markText(
-					// 	{line: Assembled.count+1, ch: 0},
-					// 	{line: CodeMirrorInst.lineCount(), ch: 0},
-					// 	{
-					// 		css: "opacity: 0.5"
-					// 	}
-					// );
-					return;
-				}
-
-				var MachineCode = Assembled.mc;
-
-				var HexString = "";
-				MachineCode.forEach(
-					function(Byte){
-						HexString += HexByte(Byte) + " ";
-				});
-				ElmMemory.innerHTML = HexString;
-			}
-
-			// Default program
-			CodeMirrorInst.setValue("square:\n        mov     r3, r0\n        mul     r0, r3, r0\n        bx      lr");
-
 		</script>
 	</body>
 </html>
