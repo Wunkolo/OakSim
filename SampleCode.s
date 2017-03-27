@@ -1,5 +1,5 @@
 .macro PADGROUP name=""
-	.balign 16,0xCC
+	.balign 16,0xAB
 	.ascii "\name"
 	.balign 16,'='
 .endm
