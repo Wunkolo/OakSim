@@ -100,14 +100,14 @@
 					}
 					else
 					{
-						var Colors = ["#90a95","#6a9fb5","#d28445","#ac4142","#aa759f"];
+						var Colors = ["#90a959","#6a9fb5","#d28445","#ac4142","#aa759f"];
 						Hex = "<span style=\"color:" + Colors[Byte % Colors.length] + "\">" + Hex + "</span>";
 					}
 					return Hex;
 				}
 				var AsciiByte = function(Byte)
 				{
-					var Colors = ["#90a95","#6a9fb5","#d28445","#ac4142","#aa759f"];
+					var Colors = ["#90a959","#6a9fb5","#d28445","#ac4142","#aa759f"];
 					if((Byte > 31) && (Byte <  127))
 					{
 						return  "<span style=\"color:" + Colors[Byte % Colors.length] + "\">" + String.fromCharCode(Byte) + "</span>";
