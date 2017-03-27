@@ -59,7 +59,7 @@ Data:
 	.balign 16,0xCC
 	.string "Arm assembly right in your browser!"
 	.ascii "test\000"
-	.balign 16,0xC
+	.balign 16,0xCC
 	.space 64,'^'
 	.asciiz "YO"
 	
