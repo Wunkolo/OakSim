@@ -4,7 +4,7 @@
 	.balign 16,'='
 .endm
 
-.arm @ Emit 32-bit ARM cdoe
+.arm @ Emit 32-bit ARM code
 #.thumb @ Emit 16-bit THUMB code, note now "IntegerDivide" collapses
 
 PADGROUP "Square"
