@@ -63,7 +63,7 @@ var Context = ( function()
 	var StyleByte = function(Byte)
 	{
 		var Hex = ( "00" + Byte.toString(16).toUpperCase() ).slice(-2);
-		if (Byte == 0x00)
+		if (Byte === 0x00)
 		{
 			Hex = "<span style=\"color:#313032\">" + Hex + "</span>";
 		}
