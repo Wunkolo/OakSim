@@ -1,0 +1,255 @@
+html, body
+{
+	background-color: #0e0e0e;
+	color: white;
+	font-family: courier, monospace;
+	font-size: 12px;
+	height: 100%;
+	letter-spacing: 1px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+#tooltip
+{
+	background-color: #1f1e21;
+	border: 1px solid;
+	box-shadow: 2px 2px 4px black;
+	display: none;
+	font-size: 10px;
+	max-width: 500px;
+	overflow: hidden;
+	padding: 2px;
+	position: absolute;
+	text-overflow: ellipsis;
+	z-index: 1000;
+}
+
+.panel
+{
+	background-color: #0e0e0e;
+	border: 1px dashed #313032;
+	border-radius: 3px;
+	box-shadow: inset 0px 0px 10px 0px rgba(1, 1, 1, 1);
+	margin: 5px;
+	padding: 10px;
+}
+
+#content
+{
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	margin: 0 auto;
+	min-width: 750px;
+	width: 90%;
+}
+
+#header, #footer
+{
+	flex: 0 1 auto;
+}
+
+#main
+{
+	display: flex;
+	flex: 1 1 auto;
+	overflow: hidden;
+}
+
+.content-left, .content-right
+{
+	display: flex;
+	flex-flow: column;
+	overflow: auto;
+}
+
+.content-left
+{
+	flex: 1 1 auto;
+}
+
+.content-right
+{
+	flex: 0 1 auto;
+	width: 50%;
+}
+
+#buttons
+{
+	flex: 0 1 auto;
+}
+
+#code
+{
+	flex: 1 1 75%;
+	overflow-y: hidden;
+	padding: 0;
+}
+
+#messages
+{
+	flex: 0 1 15%;
+	overflow-y: scroll;
+}
+
+#registers
+{
+	flex: 0 1 50%;
+	overflow-y: scroll;
+	white-space: nowrap;
+}
+
+#memory
+{
+	flex: 1 1 auto;
+	overflow-y: scroll;
+	white-space: nowrap;
+}
+
+/*Scrollbar*/
+
+::-webkit-scrollbar
+{
+	height: 4px;
+	width: 4px;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background: #a2a2a2;
+	border-radius: 3px;
+}
+
+::-webkit-scrollbar-track
+{
+	background: #313032;
+}
+
+/* Codemirror*/
+
+.cm-s-OakSim.CodeMirror
+{
+	background: transparent;
+	color: #e0e0e0;
+	height: 100%;
+}
+
+.cm-s-OakSim div.CodeMirror-selected
+{
+	background: #303030;
+}
+
+.cm-s-OakSim .CodeMirror-line::selection, .cm-s-OakSim .CodeMirror-line > span::selection, .cm-s-OakSim .CodeMirror-line > span > span::selection
+{
+	background: rgba(48, 48, 48, .99);
+}
+
+.cm-s-OakSim .CodeMirror-line::-moz-selection, .cm-s-OakSim .CodeMirror-line > span::-moz-selection, .cm-s-OakSim .CodeMirror-line > span > span::-moz-selection
+{
+	background: rgba(48, 48, 48, .99);
+}
+
+.cm-s-OakSim .CodeMirror-gutters
+{
+	background: transparent;
+	border-right: 0px;
+}
+
+.cm-s-OakSim .CodeMirror-guttermarker
+{
+	color: #ac4142;
+}
+
+.cm-s-OakSim .CodeMirror-guttermarker-subtle
+{
+	color: #505050;
+}
+
+.cm-s-OakSim .CodeMirror-linenumber
+{
+	color: #505050;
+}
+
+.cm-s-OakSim .CodeMirror-cursor
+{
+	border-left: 1px solid #b0b0b0;
+}
+
+.cm-s-OakSim span.cm-comment
+{
+	color: #8f5536;
+}
+
+.cm-s-OakSim span.cm-atom
+{
+	color: #aa759f;
+}
+
+.cm-s-OakSim span.cm-number
+{
+	color: #aa759f;
+}
+
+.cm-s-OakSim span.cm-property, .cm-s-OakSim span.cm-attribute
+{
+	color: #90a959;
+}
+
+.cm-s-OakSim span.cm-keyword
+{
+	color: #ac4142;
+}
+
+.cm-s-OakSim span.cm-string
+{
+	color: #f4bf75;
+}
+
+.cm-s-OakSim span.cm-variable
+{
+	color: #90a959;
+}
+
+.cm-s-OakSim span.cm-variable-2
+{
+	color: #6a9fb5;
+}
+
+.cm-s-OakSim span.cm-def
+{
+	color: #d28445;
+}
+
+.cm-s-OakSim span.cm-bracket
+{
+	color: #e0e0e0;
+}
+
+.cm-s-OakSim span.cm-tag
+{
+	color: #ac4142;
+}
+
+.cm-s-OakSim span.cm-link
+{
+	color: #aa759f;
+}
+
+.cm-s-OakSim span.cm-error
+{
+	background: #ac4142;
+	color: #b0b0b0;
+}
+
+.cm-s-OakSim .CodeMirror-activeline-background
+{
+	background: #202020;
+}
+
+.cm-s-OakSim .CodeMirror-matchingbracket
+{
+	color: white !important;
+	text-decoration: underline;
+}
