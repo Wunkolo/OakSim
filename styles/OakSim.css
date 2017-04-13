@@ -143,18 +143,20 @@ html, body
 
 .cm-s-OakSim .CodeMirror-line::selection, .cm-s-OakSim .CodeMirror-line > span::selection, .cm-s-OakSim .CodeMirror-line > span > span::selection
 {
+	background: #303030;
 	background: rgba(48, 48, 48, .99);
 }
 
 .cm-s-OakSim .CodeMirror-line::-moz-selection, .cm-s-OakSim .CodeMirror-line > span::-moz-selection, .cm-s-OakSim .CodeMirror-line > span > span::-moz-selection
 {
+	background: #303030;
 	background: rgba(48, 48, 48, .99);
 }
 
 .cm-s-OakSim .CodeMirror-gutters
 {
 	background: transparent;
-	border-right: 0px;
+	border-right: 0;
 }
 
 .cm-s-OakSim .CodeMirror-guttermarker
