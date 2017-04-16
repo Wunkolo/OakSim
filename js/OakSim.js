@@ -1,17 +1,77 @@
 function HexByte(Value)
 {
-	Value = Value < 0 ? ( Value += 0x100 ) : Value;
+	Value = Value < 0 ? Value += 0x100 : Value;
 	var Str = "00" + Value.toString(16).toUpperCase();
 	return Str.slice(-2);
 }
 
+var CurContext = null;
+
+var RegisterType =
+{
+	uint32: 0,
+	int32: 1,
+	uint64: 2,
+	int64: 3,
+	float32: 4,
+	float64: 5
+};
+
+function Register(
+	Name, // register Display Name
+	RegisterType, // RegisterType enum for display type
+	Identifier // Unicorn Engine register identifier
+)
+{
+	this.Name = Name;
+	this.RegisterType = RegisterType;
+	this.Identifier = Identifier;
+	this.Value = 0;
+	this.OldValue = this.Value;
+	this.Changed = false;
+
+
+	this.Update = function()
+	{
+		switch( this.RegisterType )
+		{
+		case RegisterType.uint32:
+			{
+				break;
+			}
+		case RegisterType.int32:
+			{
+				break;
+			}
+		case RegisterType.float32:
+			{
+				break;
+			}
+		}
+	};
+	this.Reset = function()
+	{
+		this.Value = 0;
+	};
+}
+
+var RegisterSet =
+{
+	Registers: [],
+	Update: function()
+	{
+		this.Registers.forEach(
+			function(CurRegister)
+			{
+				CurRegister.Update();
+			}
+		);
+	}
+};
 
 // OakSim Model
-var Context = ( function()
+CurContext = ( function()
 {
-	/// Methods
-
-	// Assembles current user-code
 	this.Assemble = function(Source)
 	{
 		var ElmMemory = document.getElementById("memory");
@@ -23,7 +83,7 @@ var Context = ( function()
 		// );
 
 		var Assembled = this.Keystone.asm(Source);
-		if (Assembled.failed === true)
+		if( Assembled.failed === true || Assembled.mc === undefined )
 		{
 			console.log("Error assembling");
 			// CodeMirrorInst.markText(
@@ -59,11 +119,13 @@ var Context = ( function()
 	};
 
 	// Private util methods
-	var Colors = ["#e0e0e0", "#90a959", "#6a9fb5", "#ac4142", "#aa759f", "#f4bf75"];
+	var Colors = [
+		"#e0e0e0", "#90a959", "#6a9fb5", "#ac4142", "#aa759f", "#f4bf75"
+	];
 	var StyleByte = function(Byte)
 	{
 		var Hex = ( "00" + Byte.toString(16).toUpperCase() ).slice(-2);
-		if (Byte === 0x00)
+		if( Byte === 0x00 )
 		{
 			Hex = "<span style=\"color:#313032\">" + Hex + "</span>";
 		}
@@ -75,7 +137,7 @@ var Context = ( function()
 	};
 	var AsciiByte = function(Byte)
 	{
-		if (( Byte > 31 ) && ( Byte < 127 ))
+		if( Byte > 31 && Byte < 127 )
 		{
 			return "<span style=\"color:" + Colors[Byte % Colors.length] + "\">" + String.fromCharCode(Byte) + "</span>";
 		}
@@ -88,7 +150,7 @@ var Context = ( function()
 		Width = Width || 16;
 		var Out = "";
 
-		for (var i = 0; i < Length; i += Width)
+		for( var i = 0; i < Length; i += Width )
 		{
 			var LineBytes = Bytes.slice(i, i + Width);
 			var Hex = LineBytes.reduce(
@@ -120,150 +182,10 @@ var Context = ( function()
 		document.getElementById("registers").innerHTML =
 			"Registers:<br>"
 			+ "&emsp;r0 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R0).toString(16)
-			+ "<br>"
-			+ "&emsp;r1 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R1).toString(16)
-			+ "<br>"
-			+ "&emsp;r2 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R2).toString(16)
-			+ "<br>"
-			+ "&emsp;r3 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R3).toString(16)
-			+ "<br>"
-			+ "&emsp;r4 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R4).toString(16)
-			+ "<br>"
-			+ "&emsp;r5 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R5).toString(16)
-			+ "<br>"
-			+ "&emsp;r6 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R6).toString(16)
-			+ "<br>"
-			+ "&emsp;r7 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R7).toString(16)
-			+ "<br>"
-			+ "&emsp;r8 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R8).toString(16)
-			+ "<br>"
-			+ "&emsp;r9 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R9).toString(16)
-			+ "<br>"
-			+ "&emsp;r10: "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R10).toString(16)
-			+ "<br>"
-			+ "&emsp;r11: "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R11).toString(16)
-			+ "<br>"
-			+ "&emsp;r12: "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R12).toString(16)
-			+ "<br>"
-			+ "&emsp;SP : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_SP).toString(16)
-			+ "<br>"
-			+ "&emsp;LR : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_LR).toString(16)
-			+ "<br>"
-			+ "&emsp;PC : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_PC).toString(16)
-			+ "<br>";
+			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R0).toString(16);
 		document.getElementById("registers").innerHTML +=
 			"&emsp;s0 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S0)
-			+ "<br>"
-			+ "&emsp;s1 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S1)
-			+ "<br>"
-			+ "&emsp;s2 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S2)
-			+ "<br>"
-			+ "&emsp;s3 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S3)
-			+ "<br>"
-			+ "&emsp;s4 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S4)
-			+ "<br>"
-			+ "&emsp;s5 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S5)
-			+ "<br>"
-			+ "&emsp;s6 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S6)
-			+ "<br>"
-			+ "&emsp;s7 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S7)
-			+ "<br>"
-			+ "&emsp;s8 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S8)
-			+ "<br>"
-			+ "&emsp;s9 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S9)
-			+ "<br>"
-			+ "&emsp;s10: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S10)
-			+ "<br>"
-			+ "&emsp;s11: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S11)
-			+ "<br>"
-			+ "&emsp;s12: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S12)
-			+ "<br>"
-			+ "&emsp;s13: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S13)
-			+ "<br>"
-			+ "&emsp;s14: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S14)
-			+ "<br>"
-			+ "&emsp;s15: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S15)
-			+ "<br>"
-			+ "&emsp;s16: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S16)
-			+ "<br>"
-			+ "&emsp;s17: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S17)
-			+ "<br>"
-			+ "&emsp;s18: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S18)
-			+ "<br>"
-			+ "&emsp;s19: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S19)
-			+ "<br>"
-			+ "&emsp;s20: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S20)
-			+ "<br>"
-			+ "&emsp;s21: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S21)
-			+ "<br>"
-			+ "&emsp;s22: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S22)
-			+ "<br>"
-			+ "&emsp;s23: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S23)
-			+ "<br>"
-			+ "&emsp;s24: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S24)
-			+ "<br>"
-			+ "&emsp;s25: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S25)
-			+ "<br>"
-			+ "&emsp;s26: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S26)
-			+ "<br>"
-			+ "&emsp;s27: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S27)
-			+ "<br>"
-			+ "&emsp;s28: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S28)
-			+ "<br>"
-			+ "&emsp;s29: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S29)
-			+ "<br>"
-			+ "&emsp;s30: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S30)
-			+ "<br>"
-			+ "&emsp;s31: "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S31)
-			+ "<br>";
+			+ this.Unicorn.reg_read_float(uc.ARM_REG_S0);
 	};
 	this.Reset = function()
 	{
@@ -273,15 +195,33 @@ var Context = ( function()
 		0x40000 - 0x60000 Working memory
 		*/
 		// Stack
-		this.Unicorn.mem_unmap(0x8000, 0x8000);
+		try
+		{
+			this.Unicorn.mem_unmap(0x8000, 0x8000);
+		}
+		catch( e )
+		{
+		}
 		this.Unicorn.mem_map(0x8000, 0x8000);
 		this.Unicorn.reg_write_i32(uc.ARM_REG_SP, 0x8000 + 0x8000);
 		// Code
-		this.Unicorn.mem_unmap(0x10000, 0x30000);
+		try
+		{
+			this.Unicorn.mem_unmap(0x10000, 0x30000);
+		}
+		catch( e )
+		{
+		}
 		this.Unicorn.mem_map(0x10000, 0x30000);
 		this.Unicorn.reg_write_i32(uc.ARM_REG_IP, 0x10000);
 		// WRAM
-		this.Unicorn.mem_unmap(0x40000, 0x20000);
+		try
+		{
+			this.Unicorn.mem_unmap(0x40000, 0x20000);
+		}
+		catch( e )
+		{
+		}
 		this.Unicorn.mem_map(0x40000, 0x20000);
 
 		this.DrawRegisters();
@@ -299,9 +239,6 @@ var Context = ( function()
 	// Disassembler
 	//var Capstone = new cs.Capstone(cs.ARCH_ARM,cs.MODE_ARM);
 
-	// Delay between changing the text box and assembling
-	this.AssembleDelay = null;
-
 	// CodeMirror
 	this.CodeMirrorInst = CodeMirror.fromTextArea(
 		document.getElementById("source"),
@@ -314,8 +251,21 @@ var Context = ( function()
 			smartIndent: true,
 			indentWithTabs: true,
 			mode: "gas",
-			theme: "OakSim",
+			theme: "OakSim"
 		});
+
+	// Delay between changing the text box and assembling
+	this.AssembleProc = function()
+	{
+		this.Assemble(this.CodeMirrorInst.getValue());
+		this.DrawMemory();
+		this.DrawRegisters();
+	};
+	this.AssembleDelay = setTimeout(
+		this.AssembleProc,
+		125
+	);
+
 
 	this.CodeMirrorInst.on(
 		"change",
@@ -323,14 +273,11 @@ var Context = ( function()
 		{
 			clearTimeout(this.AssembleDelay);
 			this.AssembleDelay = setTimeout(
-				function()
-				{
-					Assemble(this.CodeMirrorInst.getValue());
-					this.DrawMemory();
-					this.DrawRegisters();
-				},
+				this.AssembleProc,
 				125);
-		});
+		}
+	);
+
 	// Default program
 	this.CodeMirrorInst.setValue("square:\n\tmov r3, r0\n\tmul r0, r3, r0\n\tbx lr");
 	console.log("CodeMirror initialized");
