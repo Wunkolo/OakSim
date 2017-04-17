@@ -5,8 +5,6 @@ function HexByte(Value)
 	return Str.slice(-2);
 }
 
-//var CurContext = null;
-
 var RegisterType =
 {
 	uint32: 0,
@@ -18,7 +16,7 @@ var RegisterType =
 };
 
 
-CurContext = new ( function()
+var CurContext = new ( function()
 {
 	var Context = this;
 	this.Registers = new ( function()
