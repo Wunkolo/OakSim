@@ -233,16 +233,16 @@ CurContext = new ( function()
 		{
 			var LineBytes = Bytes.slice(i, i + Width);
 			var Hex = LineBytes.reduce(
-				function(Line, i)
+				function(Line, CurByte)
 				{
-					return Line + " " + StyleByte(i);
+					return Line + " " + StyleByte(CurByte);
 				},
 				"0x" + ( "00000000" + ( i + Offset ).toString(16).toUpperCase() ).slice(-8) + ":");
 			Out += Hex
 				+ LineBytes.reduce(
-					function(Print, i)
+					function(Print, CurByte)
 					{
-						return Print + AsciiByte(i);
+						return Print + AsciiByte(CurByte);
 					},
 					" ")
 				+ "<br>";
