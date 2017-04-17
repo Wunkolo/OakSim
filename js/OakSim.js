@@ -24,7 +24,6 @@ function Register
 	Identifier // Unicorn Engine register identifier
 )
 {
-	var Instance = this;
 	this.Name = Name;
 	this.RegisterType = RegisterType;
 	this.Identifier = Identifier;
@@ -51,16 +50,16 @@ function Register
 				break;
 			}
 		}
-		if (Instance.Value !== NewValue)
+		if (this.Value !== NewValue)
 		{
-			Instance.Changed = true;
+			this.Changed = true;
 		}
 		else
 		{
-			Instance.Changed = false;
+			this.Changed = false;
 		}
-		Instance.OldValue = Instance.Value;
-		Instance.Value = NewValue;
+		this.OldValue = this.Value;
+		this.Value = NewValue;
 	};
 	this.Reset = function()
 	{
@@ -68,36 +67,15 @@ function Register
 	};
 }
 
-function RegisterSet()
-{
-	var Instance = this;
-	this.Registers = [];
-	this.Update = function()
-	{
-		this.Registers.forEach(
-			function(CurRegister)
-			{
-				CurRegister.Update();
-			}
-		);
-	};
-	this.PushRegister = function(NewRegister)
-	{
-		Instance.Registers.push(NewRegister);
-	};
-};
-
-// OakSim Model
 CurContext = new ( function()
 {
 	var Context = this;
 	this.Registers = new ( function()
 	{
-		var Instance = this;
 		this.Entries = [];
 		this.Update = function()
 		{
-			Instance.Entries.forEach(
+			this.Entries.forEach(
 				function(CurRegister)
 				{
 					CurRegister.Update();
@@ -106,7 +84,7 @@ CurContext = new ( function()
 		};
 		this.PushRegister = function(NewRegister)
 		{
-			Instance.Entries.push(NewRegister);
+			this.Entries.push(NewRegister);
 		};
 	} )();
 
