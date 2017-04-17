@@ -212,7 +212,7 @@ CurContext = new ( function()
 		document.getElementById("registers").innerHTML =
 			"Registers:<br>"
 			+ Context.Registers.Entries.reduce(
-				function(RegList, CurRegister, Index)
+				function(RegList, CurRegister)
 				{
 					return RegList
 						+ "\t"
