@@ -96,7 +96,6 @@ CurContext = new ( function()
 		Identifier // Unicorn Engine register identifier
 	)
 	{
-		var Instance = this;
 		this.Name = Name;
 		this.RegisterType = RegisterType;
 		this.Identifier = Identifier;
@@ -123,16 +122,16 @@ CurContext = new ( function()
 					break;
 				}
 			}
-			if (Instance.Value !== NewValue)
+			if (this.Value !== NewValue)
 			{
-				Instance.Changed = true;
+				this.Changed = true;
 			}
 			else
 			{
-				Instance.Changed = false;
+				this.Changed = false;
 			}
-			Instance.OldValue = Instance.Value;
-			Instance.Value = NewValue;
+			this.OldValue = this.Value;
+			this.Value = NewValue;
 		};
 		this.Reset = function()
 		{
