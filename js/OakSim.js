@@ -5,7 +5,7 @@ function HexByte(Value)
 	return Str.slice(-2);
 }
 
-var CurContext = null;
+//var CurContext = null;
 
 var RegisterType =
 {
@@ -24,6 +24,7 @@ function Register
 	Identifier // Unicorn Engine register identifier
 )
 {
+	var Instance = this;
 	this.Name = Name;
 	this.RegisterType = RegisterType;
 	this.Identifier = Identifier;
@@ -34,21 +35,32 @@ function Register
 
 	this.Update = function()
 	{
+		var NewValue = -1;
 		switch (this.RegisterType)
 		{
+		default:
 		case RegisterType.uint32:
-			{
-				break;
-			}
 		case RegisterType.int32:
 			{
+				NewValue = CurContext.Unicorn.reg_read_i32(this.Identifier);
 				break;
 			}
 		case RegisterType.float32:
 			{
+				NewValue = CurContext.Unicorn.reg_read_float(this.Identifier);
 				break;
 			}
 		}
+		if (Instance.Value !== NewValue)
+		{
+			Instance.Changed = true;
+		}
+		else
+		{
+			Instance.Changed = false;
+		}
+		Instance.OldValue = Instance.Value;
+		Instance.Value = NewValue;
 	};
 	this.Reset = function()
 	{
@@ -56,10 +68,11 @@ function Register
 	};
 }
 
-var RegisterSet =
+function RegisterSet()
 {
-	Registers: [],
-	Update: function()
+	var Instance = this;
+	this.Registers = [];
+	this.Update = function()
 	{
 		this.Registers.forEach(
 			function(CurRegister)
@@ -67,23 +80,107 @@ var RegisterSet =
 				CurRegister.Update();
 			}
 		);
-	}
+	};
+	this.PushRegister = function(NewRegister)
+	{
+		Instance.Registers.push(NewRegister);
+	};
 };
 
 // OakSim Model
 CurContext = new ( function()
 {
 	var Context = this;
+	this.Registers = new ( function()
+	{
+		var Instance = this;
+		this.Entries = [];
+		this.Update = function()
+		{
+			Instance.Entries.forEach(
+				function(CurRegister)
+				{
+					CurRegister.Update();
+				}
+			);
+		};
+		this.PushRegister = function(NewRegister)
+		{
+			Instance.Entries.push(NewRegister);
+		};
+	} )();
+
+	function Register
+	(
+		Name, // register Display Name
+		RegisterType, // RegisterType enum for display type
+		Identifier // Unicorn Engine register identifier
+	)
+	{
+		var Instance = this;
+		this.Name = Name;
+		this.RegisterType = RegisterType;
+		this.Identifier = Identifier;
+		this.Value = 0;
+		this.OldValue = this.Value;
+		this.Changed = false;
+
+
+		this.Update = function()
+		{
+			var NewValue = -1;
+			switch (this.RegisterType)
+			{
+			default:
+			case RegisterType.uint32:
+			case RegisterType.int32:
+				{
+					NewValue = Context.Unicorn.reg_read_i32(this.Identifier);
+					break;
+				}
+			case RegisterType.float32:
+				{
+					NewValue = Context.Unicorn.reg_read_float(this.Identifier);
+					break;
+				}
+			}
+			if (Instance.Value !== NewValue)
+			{
+				Instance.Changed = true;
+			}
+			else
+			{
+				Instance.Changed = false;
+			}
+			Instance.OldValue = Instance.Value;
+			Instance.Value = NewValue;
+		};
+		this.Reset = function()
+		{
+			this.Value = 0;
+		};
+	}
+
+	this.Registers.PushRegister(new Register("R0", RegisterType.uint32, uc.ARM_REG_R0));
+	this.Registers.PushRegister(new Register("R1", RegisterType.uint32, uc.ARM_REG_R1));
+	this.Registers.PushRegister(new Register("R2", RegisterType.uint32, uc.ARM_REG_R2));
+	this.Registers.PushRegister(new Register("R3", RegisterType.uint32, uc.ARM_REG_R3));
+	this.Registers.PushRegister(new Register("R4", RegisterType.uint32, uc.ARM_REG_R4));
+	this.Registers.PushRegister(new Register("R5", RegisterType.uint32, uc.ARM_REG_R5));
+	this.Registers.PushRegister(new Register("R6", RegisterType.uint32, uc.ARM_REG_R6));
+	this.Registers.PushRegister(new Register("R7", RegisterType.uint32, uc.ARM_REG_R7));
+	this.Registers.PushRegister(new Register("R8", RegisterType.uint32, uc.ARM_REG_R8));
+	this.Registers.PushRegister(new Register("R9", RegisterType.uint32, uc.ARM_REG_R9));
+	this.Registers.PushRegister(new Register("R10", RegisterType.uint32, uc.ARM_REG_R10));
+	this.Registers.PushRegister(new Register("R11", RegisterType.uint32, uc.ARM_REG_R11));
+	this.Registers.PushRegister(new Register("R12", RegisterType.uint32, uc.ARM_REG_R12));
+	this.Registers.PushRegister(new Register("SP", RegisterType.uint32, uc.ARM_REG_SP));
+	this.Registers.PushRegister(new Register("LR", RegisterType.uint32, uc.ARM_REG_LR));
+	this.Registers.PushRegister(new Register("PC", RegisterType.uint32, uc.ARM_REG_PC));
+	this.Registers.PushRegister(new Register("CPSR", RegisterType.uint32, uc.ARM_REG_CPSR));
 	this.Assemble = function(Source)
 	{
 		var ElmMemory = document.getElementById("memory");
-		// Context.CodeMirrorInst.getAllMarks().map(
-		// 	function( Mark )
-		// 	{
-		// 		Mark.clear();
-		// 	}
-		// );
-
 		var Assembled = this.Keystone.asm(Source);
 		if (Assembled.failed === true || Assembled.mc === undefined)
 		{
@@ -181,13 +278,20 @@ CurContext = new ( function()
 	};
 	this.DrawRegisters = function()
 	{
+		Context.Registers.Update();
 		document.getElementById("registers").innerHTML =
 			"Registers:<br>"
-			+ "&emsp;r0 : "
-			+ this.Unicorn.reg_read_i32(uc.ARM_REG_R0).toString(16);
-		document.getElementById("registers").innerHTML +=
-			"&emsp;s0 : "
-			+ this.Unicorn.reg_read_float(uc.ARM_REG_S0);
+			+ Context.Registers.Entries.reduce(
+				function(RegList, CurRegister, Index)
+				{
+					return RegList
+						+ "\t"
+						+ CurRegister.Name
+						+ ": "
+						+ CurRegister.Value.toString(16)
+						+ "<br>";
+				},
+				"");
 	};
 	this.Reset = function()
 	{
@@ -235,7 +339,7 @@ CurContext = new ( function()
 
 	// Emulator
 	// simulated as "armv8eb"
-	this.Unicorn = new uc.Unicorn(uc.ARCH_ARM, ks.MODE_LITTLE_ENDIAN);
+	this.Unicorn = new uc.Unicorn(uc.ARCH_ARM, uc.MODE_LITTLE_ENDIAN);
 	console.log("Unicorn initialized");
 
 	// Disassembler
