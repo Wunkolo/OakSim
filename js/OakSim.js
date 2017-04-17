@@ -86,6 +86,7 @@ CurContext = new ( function()
 		{
 			this.Entries.push(NewRegister);
 		};
+		return this;
 	} )();
 
 	function Register
@@ -137,6 +138,7 @@ CurContext = new ( function()
 		{
 			this.Value = 0;
 		};
+		return this;
 	}
 
 	this.Registers.PushRegister(new Register("R0", RegisterType.uint32, uc.ARM_REG_R0));
