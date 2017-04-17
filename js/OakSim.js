@@ -17,55 +17,6 @@ var RegisterType =
 	float64: 5
 };
 
-function Register
-(
-	Name, // register Display Name
-	RegisterType, // RegisterType enum for display type
-	Identifier // Unicorn Engine register identifier
-)
-{
-	this.Name = Name;
-	this.RegisterType = RegisterType;
-	this.Identifier = Identifier;
-	this.Value = 0;
-	this.OldValue = this.Value;
-	this.Changed = false;
-
-
-	this.Update = function()
-	{
-		var NewValue = -1;
-		switch (this.RegisterType)
-		{
-		default:
-		case RegisterType.uint32:
-		case RegisterType.int32:
-			{
-				NewValue = CurContext.Unicorn.reg_read_i32(this.Identifier);
-				break;
-			}
-		case RegisterType.float32:
-			{
-				NewValue = CurContext.Unicorn.reg_read_float(this.Identifier);
-				break;
-			}
-		}
-		if (this.Value !== NewValue)
-		{
-			this.Changed = true;
-		}
-		else
-		{
-			this.Changed = false;
-		}
-		this.OldValue = this.Value;
-		this.Value = NewValue;
-	};
-	this.Reset = function()
-	{
-		this.Value = 0;
-	};
-}
 
 CurContext = new ( function()
 {
