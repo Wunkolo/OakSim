@@ -17,7 +17,8 @@ var RegisterType =
 	float64: 5
 };
 
-function Register(
+function Register
+(
 	Name, // register Display Name
 	RegisterType, // RegisterType enum for display type
 	Identifier // Unicorn Engine register identifier
@@ -33,7 +34,7 @@ function Register(
 
 	this.Update = function()
 	{
-		switch( this.RegisterType )
+		switch (this.RegisterType)
 		{
 		case RegisterType.uint32:
 			{
@@ -70,8 +71,9 @@ var RegisterSet =
 };
 
 // OakSim Model
-CurContext = ( function()
+CurContext = new ( function()
 {
+	var Context = this;
 	this.Assemble = function(Source)
 	{
 		var ElmMemory = document.getElementById("memory");
@@ -83,7 +85,7 @@ CurContext = ( function()
 		// );
 
 		var Assembled = this.Keystone.asm(Source);
-		if( Assembled.failed === true || Assembled.mc === undefined )
+		if (Assembled.failed === true || Assembled.mc === undefined)
 		{
 			console.log("Error assembling");
 			// CodeMirrorInst.markText(
@@ -125,7 +127,7 @@ CurContext = ( function()
 	var StyleByte = function(Byte)
 	{
 		var Hex = ( "00" + Byte.toString(16).toUpperCase() ).slice(-2);
-		if( Byte === 0x00 )
+		if (Byte === 0x00)
 		{
 			Hex = "<span style=\"color:#313032\">" + Hex + "</span>";
 		}
@@ -137,7 +139,7 @@ CurContext = ( function()
 	};
 	var AsciiByte = function(Byte)
 	{
-		if( Byte > 31 && Byte < 127 )
+		if (Byte > 31 && Byte < 127)
 		{
 			return "<span style=\"color:" + Colors[Byte % Colors.length] + "\">" + String.fromCharCode(Byte) + "</span>";
 		}
@@ -150,7 +152,7 @@ CurContext = ( function()
 		Width = Width || 16;
 		var Out = "";
 
-		for( var i = 0; i < Length; i += Width )
+		for (var i = 0; i < Length; i += Width)
 		{
 			var LineBytes = Bytes.slice(i, i + Width);
 			var Hex = LineBytes.reduce(
@@ -199,7 +201,7 @@ CurContext = ( function()
 		{
 			this.Unicorn.mem_unmap(0x8000, 0x8000);
 		}
-		catch( e )
+		catch (e)
 		{
 		}
 		this.Unicorn.mem_map(0x8000, 0x8000);
@@ -209,7 +211,7 @@ CurContext = ( function()
 		{
 			this.Unicorn.mem_unmap(0x10000, 0x30000);
 		}
-		catch( e )
+		catch (e)
 		{
 		}
 		this.Unicorn.mem_map(0x10000, 0x30000);
@@ -219,7 +221,7 @@ CurContext = ( function()
 		{
 			this.Unicorn.mem_unmap(0x40000, 0x20000);
 		}
-		catch( e )
+		catch (e)
 		{
 		}
 		this.Unicorn.mem_map(0x40000, 0x20000);
@@ -253,13 +255,17 @@ CurContext = ( function()
 			mode: "gas",
 			theme: "OakSim"
 		});
+	// Default program
+	this.CodeMirrorInst.setValue("square:\n\tmov r3, r0\n\tmul r0, r3, r0\n\tbx lr");
+
+	console.log("CodeMirror initialized");
 
 	// Delay between changing the text box and assembling
 	this.AssembleProc = function()
 	{
-		this.Assemble(this.CodeMirrorInst.getValue());
-		this.DrawMemory();
-		this.DrawRegisters();
+		Context.Assemble(Context.CodeMirrorInst.getValue());
+		Context.DrawMemory();
+		Context.DrawRegisters();
 	};
 	this.AssembleDelay = setTimeout(
 		this.AssembleProc,
@@ -277,11 +283,6 @@ CurContext = ( function()
 				125);
 		}
 	);
-
-	// Default program
-	this.CodeMirrorInst.setValue("square:\n\tmov r3, r0\n\tmul r0, r3, r0\n\tbx lr");
-	console.log("CodeMirror initialized");
-
 
 	this.Reset();
 	return this;
