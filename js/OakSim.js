@@ -311,9 +311,9 @@ CurContext = new ( function()
 		"change",
 		function()
 		{
-			clearTimeout(this.AssembleDelay);
-			this.AssembleDelay = setTimeout(
-				this.AssembleProc,
+			clearTimeout(Context.AssembleDelay);
+			Context.AssembleDelay = setTimeout(
+				Context.AssembleProc,
 				125);
 		}
 	);
