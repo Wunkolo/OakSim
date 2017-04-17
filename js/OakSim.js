@@ -107,7 +107,7 @@ CurContext = new ( function()
 
 		this.Update = function()
 		{
-			var NewValue = -1;
+			var NewValue;
 			switch (this.RegisterType)
 			{
 			default:
