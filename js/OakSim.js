@@ -248,6 +248,18 @@ var CurContext = new ( function()
 		}
 		this.Unicorn.mem_map(0x10000, 0x30000, uc.PROT_ALL);
 		this.Unicorn.reg_write_i32(uc.ARM_REG_IP, 0x10000);
+
+		this.Unicorn.hook_add(
+			uc.HOOK_INSN,
+			function(handle, user_data)
+			{
+				console.log("Code Hook Test");
+			},
+			null,
+			0x10000,
+			0x40000
+		);
+
 		// WRAM
 		try
 		{
@@ -258,7 +270,7 @@ var CurContext = new ( function()
 		}
 		this.Unicorn.mem_map(0x40000, 0x20000, uc.PROT_READ | uc.PROT_WRITE);
 
-		this.DrawRegisters();
+		this.Refresh();
 	};
 	this.Refresh = function()
 	{
@@ -301,8 +313,7 @@ var CurContext = new ( function()
 	this.AssembleProc = function()
 	{
 		Context.Assemble(Context.CodeMirrorInst.getValue());
-		Context.DrawMemory();
-		Context.DrawRegisters();
+		Context.Refresh();
 	};
 	this.AssembleDelay = setTimeout(
 		this.AssembleProc,
