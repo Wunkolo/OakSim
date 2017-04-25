@@ -276,7 +276,12 @@ var CurContext = new ( function()
 	{
 		this.DrawRegisters();
 		this.DrawMemory();
-	};
+    };
+    this.Step = function(Instructions)
+    {
+        this.Unicorn.emu_start(0x10000, 0x40000, 0, Instructions);
+	    this.Refresh();
+    }
 	// Assembler
 	this.Keystone = new ks.Keystone(ks.ARCH_ARM, ks.MODE_ARM);
 	//KeyStone.option(ks.OPT_SYNTAX,ks.OPT_SYNTAX_INTEL);
