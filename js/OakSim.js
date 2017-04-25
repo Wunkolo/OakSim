@@ -236,7 +236,7 @@ var CurContext = new ( function()
 		catch (e)
 		{
 		}
-		this.Unicorn.mem_map(0x8000, 0x8000);
+		this.Unicorn.mem_map(0x8000, 0x8000, uc.PROT_READ | uc.PROT_WRITE);
 		this.Unicorn.reg_write_i32(uc.ARM_REG_SP, 0x8000 + 0x8000);
 		// Code
 		try
@@ -246,7 +246,7 @@ var CurContext = new ( function()
 		catch (e)
 		{
 		}
-		this.Unicorn.mem_map(0x10000, 0x30000);
+		this.Unicorn.mem_map(0x10000, 0x30000, uc.PROT_ALL);
 		this.Unicorn.reg_write_i32(uc.ARM_REG_IP, 0x10000);
 		// WRAM
 		try
@@ -256,10 +256,12 @@ var CurContext = new ( function()
 		catch (e)
 		{
 		}
-		this.Unicorn.mem_map(0x40000, 0x20000);
+		this.Unicorn.mem_map(0x40000, 0x20000, uc.PROT_READ | uc.PROT_WRITE);
 
 		this.DrawRegisters();
 	};
+
+
 	// Assembler
 	this.Keystone = new ks.Keystone(ks.ARCH_ARM, ks.MODE_ARM);
 	//KeyStone.option(ks.OPT_SYNTAX,ks.OPT_SYNTAX_INTEL);
