@@ -260,8 +260,11 @@ var CurContext = new ( function()
 
 		this.DrawRegisters();
 	};
-
-
+	this.Refresh = function()
+	{
+		this.DrawRegisters();
+		this.DrawMemory();
+	};
 	// Assembler
 	this.Keystone = new ks.Keystone(ks.ARCH_ARM, ks.MODE_ARM);
 	//KeyStone.option(ks.OPT_SYNTAX,ks.OPT_SYNTAX_INTEL);
