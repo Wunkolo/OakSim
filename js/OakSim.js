@@ -353,6 +353,7 @@ var CurContext = new ( function()
 	document.getElementById("ResetButton").onclick = function()
 	{
 		CurContext.Reset();
+		CurContext.AssembleProc();
 	};
 
 	this.Reset();
