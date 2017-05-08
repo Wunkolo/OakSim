@@ -224,7 +224,7 @@ var CurContext = new ( function()
 	this.Reset = function()
 	{
 		/*
-		0x08000 - 0x10000 Stack
+		0x08000 - 0x10000 Stack ( Descending )
 		0x10000 - 0x30000 Code memory
 		0x40000 - 0x60000 Working memory
 		*/
@@ -247,7 +247,7 @@ var CurContext = new ( function()
 		{
 		}
 		this.Unicorn.mem_map(0x10000, 0x30000, uc.PROT_ALL);
-		this.Unicorn.reg_write_i32(uc.ARM_REG_IP, 0x10000);
+		this.Unicorn.reg_write_i32(uc.ARM_REG_PC, 0x10000);
 
 		this.Unicorn.hook_add(
 			uc.HOOK_INSN,
@@ -269,19 +269,19 @@ var CurContext = new ( function()
 		{
 		}
 		this.Unicorn.mem_map(0x40000, 0x20000, uc.PROT_READ | uc.PROT_WRITE);
-
 		this.Refresh();
 	};
 	this.Refresh = function()
 	{
 		this.DrawRegisters();
 		this.DrawMemory();
-    };
-    this.Step = function(Instructions)
-    {
-        this.Unicorn.emu_start(0x10000, 0x40000, 0, Instructions);
-	    this.Refresh();
-    }
+	};
+	this.Step = function(Instructions)
+	{
+		var PC = this.Unicorn.reg_read_i32(uc.ARM_REG_PC);
+		this.Unicorn.emu_start(PC, 0x40000, 0, Instructions);
+		this.Refresh();
+	};
 	// Assembler
 	this.Keystone = new ks.Keystone(ks.ARCH_ARM, ks.MODE_ARM);
 	//KeyStone.option(ks.OPT_SYNTAX,ks.OPT_SYNTAX_INTEL);
@@ -337,6 +337,10 @@ var CurContext = new ( function()
 		}
 	);
 
+	document.getElementById("StepButton").onclick = function()
+	{
+		CurContext.Step(1);
+	};
 	this.Reset();
 	return this;
 } )();
