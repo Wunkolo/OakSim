@@ -84,13 +84,13 @@ html, body
 
 #buttons button
 {
+	background: transparent;
 	border: 1px dashed #313032;
 	border-radius: 3px;
-	padding: 10px;
-	background: transparent;
 	color: inherit;
 	font: inherit;
 	font-size: 14px;
+	padding: 10px;
 }
 
 #code

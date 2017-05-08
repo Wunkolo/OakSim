@@ -337,10 +337,17 @@ var CurContext = new ( function()
 		}
 	);
 
+
+	// Button Setup
 	document.getElementById("StepButton").onclick = function()
 	{
 		CurContext.Step(1);
 	};
+	document.getElementById("ResetButton").onclick = function()
+	{
+		CurContext.Reset();
+	};
+
 	this.Reset();
 	return this;
 } )();
