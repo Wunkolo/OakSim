@@ -279,7 +279,14 @@ var CurContext = new ( function()
 	this.Step = function(Instructions)
 	{
 		var PC = this.Unicorn.reg_read_i32(uc.ARM_REG_PC);
-		this.Unicorn.emu_start(PC, 0x40000, 0, Instructions);
+		try
+		{
+			this.Unicorn.emu_start(PC, 0x40000, 0, Instructions);
+		}
+		catch (e)
+		{
+			this.Log(e);
+		}
 		this.Refresh();
 	};
 	// Assembler
