@@ -35,6 +35,16 @@ var CurContext = new ( function()
 		{
 			this.Entries.push(NewRegister);
 		};
+
+		this.Reset = function()
+		{
+			this.Entries.forEach(
+				function(CurRegister)
+				{
+					CurRegister.Reset();
+				}
+			);
+		};
 		return this;
 	} )();
 
@@ -85,6 +95,7 @@ var CurContext = new ( function()
 		this.Reset = function()
 		{
 			this.Value = 0;
+			Context.Unicorn.reg_write_i32(this.Identifier, 0);
 		};
 		return this;
 	}
@@ -223,6 +234,7 @@ var CurContext = new ( function()
 	};
 	this.Reset = function()
 	{
+		Context.Registers.Reset();
 		/*
 		0x08000 - 0x10000 Stack ( Descending )
 		0x10000 - 0x30000 Code memory
@@ -269,6 +281,7 @@ var CurContext = new ( function()
 		{
 		}
 		this.Unicorn.mem_map(0x40000, 0x20000, uc.PROT_READ | uc.PROT_WRITE);
+		
 		this.Refresh();
 	};
 	this.Refresh = function()
@@ -340,7 +353,8 @@ var CurContext = new ( function()
 			clearTimeout(Context.AssembleDelay);
 			Context.AssembleDelay = setTimeout(
 				Context.AssembleProc,
-				125);
+				125
+			);
 		}
 	);
 
@@ -348,12 +362,12 @@ var CurContext = new ( function()
 	// Button Setup
 	document.getElementById("StepButton").onclick = function()
 	{
-		CurContext.Step(1);
+		Context.Step(1);
 	};
 	document.getElementById("ResetButton").onclick = function()
 	{
-		CurContext.Reset();
-		CurContext.AssembleProc();
+		Context.Reset();
+		Context.AssembleProc();
 	};
 
 	this.Reset();
