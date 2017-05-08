@@ -92,6 +92,11 @@ html, body
 	font-size: 14px;
 	padding: 10px;
 }
+#buttons button:disabled
+{
+	color: inherit;
+	opacity: 0.33;
+}
 
 #code
 {
