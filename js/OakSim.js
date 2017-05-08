@@ -227,7 +227,9 @@ var CurContext = new ( function()
 						+ "\t"
 						+ CurRegister.Name
 						+ ": "
+						+ (CurRegister.Changed ? "<span style=\"color:#f4bf75;\">":"")
 						+ CurRegister.Value.toString(16)
+						+ (CurRegister.Changed ? "</span>":"")
 						+ "<br>";
 				},
 				"");
