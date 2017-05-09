@@ -191,10 +191,19 @@ var CurContext = new ( function()
 		for (var i = 0; i < Length; i += Width)
 		{
 			var LineBytes = Bytes.slice(i, i + Width);
+			var RowByte = 0;
+			var PC = Context.Unicorn.reg_read_i32(uc.ARM_REG_PC);
 			var Hex = LineBytes.reduce(
 				function(Line, CurByte)
 				{
-					return Line + " " + StyleByte(CurByte);
+					var ByteOffset = Offset + i + RowByte;
+					var Armed = ( PC <= ByteOffset ) && ( ( PC + 4 ) > ByteOffset );
+					RowByte++;
+					return Line
+						+ " "
+						+ ( Armed ? "<u>" : "" )
+						+ StyleByte(CurByte)
+						+ ( Armed ? "</u>" : "" );
 				},
 				"0x" + ( "00000000" + ( i + Offset ).toString(16).toUpperCase() ).slice(-8) + ":");
 			Out += Hex
@@ -227,9 +236,9 @@ var CurContext = new ( function()
 						+ "\t"
 						+ CurRegister.Name
 						+ ": "
-						+ (CurRegister.Changed ? "<span style=\"color:#f4bf75;\">":"")
+						+ ( CurRegister.Changed ? "<span style=\"color:#f4bf75;\">" : "" )
 						+ CurRegister.Value.toString(16)
-						+ (CurRegister.Changed ? "</span>":"")
+						+ ( CurRegister.Changed ? "</span>" : "" )
 						+ "<br>";
 				},
 				"");
@@ -283,7 +292,7 @@ var CurContext = new ( function()
 		{
 		}
 		this.Unicorn.mem_map(0x40000, 0x20000, uc.PROT_READ | uc.PROT_WRITE);
-		
+
 		this.Refresh();
 	};
 	this.Refresh = function()
