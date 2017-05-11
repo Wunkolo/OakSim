@@ -48,8 +48,7 @@ var CurContext = new ( function()
 		return this;
 	} )();
 
-	function Register
-	(
+	function Register(
 		Name, // register Display Name
 		RegisterType, // RegisterType enum for display type
 		Identifier // Unicorn Engine register identifier
@@ -66,7 +65,7 @@ var CurContext = new ( function()
 		this.Update = function()
 		{
 			var NewValue;
-			switch (this.RegisterType)
+			switch( this.RegisterType )
 			{
 			default:
 			case RegisterType.uint32:
@@ -81,7 +80,7 @@ var CurContext = new ( function()
 					break;
 				}
 			}
-			if (this.Value !== NewValue)
+			if( this.Value !== NewValue )
 			{
 				this.Changed = true;
 			}
@@ -121,7 +120,7 @@ var CurContext = new ( function()
 	{
 		var ElmMemory = document.getElementById("memory");
 		var Assembled = this.Keystone.asm(Source);
-		if (Assembled.failed === true || Assembled.mc === undefined)
+		if( Assembled.failed === true || Assembled.mc === undefined )
 		{
 			console.log("Error assembling");
 			// CodeMirrorInst.markText(
@@ -163,7 +162,7 @@ var CurContext = new ( function()
 	var StyleByte = function(Byte)
 	{
 		var Hex = ( "00" + Byte.toString(16).toUpperCase() ).slice(-2);
-		if (Byte === 0x00)
+		if( Byte === 0x00 )
 		{
 			Hex = "<span style=\"color:#313032\">" + Hex + "</span>";
 		}
@@ -175,7 +174,7 @@ var CurContext = new ( function()
 	};
 	var AsciiByte = function(Byte)
 	{
-		if (Byte > 31 && Byte < 127)
+		if( Byte > 31 && Byte < 127 )
 		{
 			return "<span style=\"color:" + Colors[Byte % Colors.length] + "\">" + String.fromCharCode(Byte) + "</span>";
 		}
@@ -188,7 +187,7 @@ var CurContext = new ( function()
 		Width = Width || 16;
 		var Out = "";
 
-		for (var i = 0; i < Length; i += Width)
+		for( var i = 0; i < Length; i += Width )
 		{
 			var LineBytes = Bytes.slice(i, i + Width);
 			var RowByte = 0;
@@ -228,20 +227,25 @@ var CurContext = new ( function()
 	{
 		Context.Registers.Update();
 		document.getElementById("registers").innerHTML =
-			"Registers:<br>"
+			"<table>"
+			+ "<thead><tr><th>Register</th><th>Value</th></tr></thead>"
+			+ "<tbody>"
 			+ Context.Registers.Entries.reduce(
 				function(RegList, CurRegister)
 				{
 					return RegList
-						+ "\t"
+						+ "<tr><td>"
 						+ CurRegister.Name
-						+ ": "
+						+ "</td>"
+						+ "<td>"
 						+ ( CurRegister.Changed ? "<span style=\"color:#f4bf75;\">" : "" )
 						+ CurRegister.Value.toString(16)
 						+ ( CurRegister.Changed ? "</span>" : "" )
-						+ "<br>";
+						+ "</td></tr>";
 				},
-				"");
+				""
+			)
+			+ "</tbody><table>";
 	};
 	this.Reset = function()
 	{
@@ -256,7 +260,7 @@ var CurContext = new ( function()
 		{
 			this.Unicorn.mem_unmap(0x8000, 0x8000);
 		}
-		catch (e)
+		catch( e )
 		{
 		}
 		this.Unicorn.mem_map(0x8000, 0x8000, uc.PROT_READ | uc.PROT_WRITE);
@@ -266,7 +270,7 @@ var CurContext = new ( function()
 		{
 			this.Unicorn.mem_unmap(0x10000, 0x30000);
 		}
-		catch (e)
+		catch( e )
 		{
 		}
 		this.Unicorn.mem_map(0x10000, 0x30000, uc.PROT_ALL);
@@ -288,10 +292,10 @@ var CurContext = new ( function()
 		{
 			this.Unicorn.mem_unmap(0x40000, 0x20000);
 		}
-		catch (e)
+		catch( e )
 		{
 		}
-        this.Unicorn.mem_map(0x40000, 0x20000, uc.PROT_READ | uc.PROT_WRITE);
+		this.Unicorn.mem_map(0x40000, 0x20000, uc.PROT_READ | uc.PROT_WRITE);
 
 		document.getElementById("messages").innerHTML = "";
 
@@ -309,7 +313,7 @@ var CurContext = new ( function()
 		{
 			this.Unicorn.emu_start(PC, 0x40000, 0, Instructions);
 		}
-		catch (e)
+		catch( e )
 		{
 			this.Log(e);
 		}
