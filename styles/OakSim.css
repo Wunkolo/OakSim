@@ -49,6 +49,7 @@ html, body
 #header, #footer
 {
 	flex: 0 1 auto;
+	text-align: center;
 }
 
 #main
@@ -67,13 +68,14 @@ html, body
 
 .content-left
 {
-	flex: 1 1 auto;
+	flex: 0 1 50%;
+	flex-flow: column;
 }
 
 .content-right
 {
-	flex: 0 1 auto;
-	width: 50%;
+	flex: 0 1 50%;
+	flex-flow: column;
 }
 
 #buttons
@@ -92,6 +94,7 @@ html, body
 	font-size: 14px;
 	padding: 10px;
 }
+
 #buttons button:disabled
 {
 	color: inherit;
@@ -100,7 +103,7 @@ html, body
 
 #code
 {
-	flex: 1 1 75%;
+	flex: 0 1 75%;
 	overflow-y: hidden;
 	padding: 0;
 }
@@ -113,14 +116,14 @@ html, body
 
 #registers
 {
-	flex: 0 1 50%;
+	flex: 0 1 33%;
 	overflow-y: scroll;
 	white-space: nowrap;
 }
 
 #memory
 {
-	flex: 1 1 auto;
+	flex: 0 1 66%;
 	overflow-y: scroll;
 	white-space: nowrap;
 }
