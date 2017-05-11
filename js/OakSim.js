@@ -70,15 +70,15 @@ var CurContext = new ( function()
 			default:
 			case RegisterType.uint32:
 			case RegisterType.int32:
-				{
-					NewValue = Context.Unicorn.reg_read_i32(this.Identifier);
-					break;
-				}
+			{
+				NewValue = Context.Unicorn.reg_read_i32(this.Identifier);
+				break;
+			}
 			case RegisterType.float32:
-				{
-					NewValue = Context.Unicorn.reg_read_float(this.Identifier);
-					break;
-				}
+			{
+				NewValue = Context.Unicorn.reg_read_float(this.Identifier);
+				break;
+			}
 			}
 			if( this.Value !== NewValue )
 			{
@@ -388,6 +388,7 @@ var CurContext = new ( function()
 		{
 			document.getElementById("RunButton").classList += "active";
 			document.getElementById("RunDelay").readOnly = true;
+			document.getElementById("StepButton").disabled = true;
 			var Delay = document.getElementById("RunDelay").valueAsNumber;
 			CurContext.RunInterval = setInterval(
 				function()
@@ -405,6 +406,7 @@ var CurContext = new ( function()
 			document.getElementById("RunButton").classList = [];
 			clearInterval(CurContext.RunInterval);
 			document.getElementById("RunDelay").readOnly = false;
+			document.getElementById("StepButton").disabled = false;
 		}
 	};
 	document.getElementById("RunButton").onclick = function()
