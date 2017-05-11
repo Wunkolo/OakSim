@@ -291,7 +291,9 @@ var CurContext = new ( function()
 		catch (e)
 		{
 		}
-		this.Unicorn.mem_map(0x40000, 0x20000, uc.PROT_READ | uc.PROT_WRITE);
+        this.Unicorn.mem_map(0x40000, 0x20000, uc.PROT_READ | uc.PROT_WRITE);
+
+		document.getElementById("messages").innerHTML = "";
 
 		this.Refresh();
 	};
