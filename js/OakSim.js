@@ -316,8 +316,10 @@ var CurContext = new ( function()
 		catch( e )
 		{
 			this.Log(e);
+			return false;
 		}
 		this.Refresh();
+		return true;
 	};
 	// Assembler
 	this.Keystone = new ks.Keystone(ks.ARCH_ARM, ks.MODE_ARM);
@@ -377,6 +379,42 @@ var CurContext = new ( function()
 
 
 	// Button Setup
+	this.Run = false;
+	this.RunInterval = null;
+	this.ToggleRun = function()
+	{
+		CurContext.Run = !CurContext.Run;
+		if( CurContext.Run === true )
+		{
+			document.getElementById("RunButton").classList += "active";
+			document.getElementById("RunDelay").readOnly = true;
+			var Delay = document.getElementById("RunDelay").valueAsNumber;
+			CurContext.RunInterval = setInterval(
+				function()
+				{
+					if( CurContext.Step(1) === false )
+					{
+						CurContext.ToggleRun();
+					}
+				},
+				Delay
+			);
+		}
+		else
+		{
+			document.getElementById("RunButton").classList = [];
+			clearInterval(CurContext.RunInterval);
+			document.getElementById("RunDelay").readOnly = false;
+		}
+	};
+	document.getElementById("RunButton").onclick = function()
+	{
+		CurContext.ToggleRun();
+	};
+	document.getElementById("RunDelay").onchange = function()
+	{
+	};
+
 	document.getElementById("StepButton").onclick = function()
 	{
 		Context.Step(1);

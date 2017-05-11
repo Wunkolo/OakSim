@@ -11,6 +11,11 @@ html, body
 	width: 100%;
 }
 
+textarea, input, button
+{
+	outline: none;
+}
+
 #tooltip
 {
 	background-color: #1f1e21;
@@ -95,10 +100,32 @@ html, body
 	padding: 10px;
 }
 
+#buttons .active
+{
+	background: transparent;
+	border: 1px dashed white;
+	border-radius: 3px;
+	color: inherit;
+	font: inherit;
+	font-size: 14px;
+	padding: 10px;
+}
+
 #buttons button:disabled
 {
 	color: inherit;
 	opacity: 0.33;
+}
+
+#buttons input
+{
+	background: transparent;
+	border: 1px dashed #313032;
+	border-radius: 3px;
+	color: inherit;
+	font: inherit;
+	font-size: 14px;
+	padding: 10px;
 }
 
 #code
