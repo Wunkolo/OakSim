@@ -328,7 +328,7 @@ var CurContext = new ( function()
 
 	// Emulator
 	// simulated as "armv8eb"
-	this.Unicorn = new uc.Unicorn(uc.ARCH_ARM, uc.MODE_LITTLE_ENDIAN);
+	this.Unicorn = new uc.Unicorn(uc.ARCH_ARM, uc.MODE_LITTLE_ENDIAN | uc.MODE_THUMB);
 	console.log("Unicorn initialized");
 
 	// Disassembler
