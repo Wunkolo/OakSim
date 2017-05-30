@@ -349,7 +349,7 @@ var CurContext = new ( function()
 			theme: "OakSim"
 		});
 	// Default program
-	this.CodeMirrorInst.setValue("square:\n\tmov r3, r0\n\tmul r0, r3, r0\n\tbx lr");
+	this.CodeMirrorInst.setValue("Loop:\n\tadd r0, r0, #1\n\tmul r1, r0, r0\n\tb Loop");
 
 	console.log("CodeMirror initialized");
 
